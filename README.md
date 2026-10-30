@@ -1,69 +1,77 @@
-# StateProof Lab — Can we prove an AI agent's success claim?
+# StateProof CrashLab
 
-**Meta Global AI Developer Hackathon 2026 | Indie Developer | Push the Frontier**
+**Contract-aware crash planning and reproducible fault evidence for stateful AI-agent workflows.**
+Meta Global AI Developer Hackathon 2026 · Indie / Push the Frontier
 
-StateProof Lab is a local, synthetic demonstration of evidence-gated AI-agent outcome verification. An agent may report success even when a payment, refund, or software deployment did not reach the intended external state. StateProof uses **Meta Muse Spark 1.3** to choose independent read-only evidence probes and submit a proposed verdict. A separate deterministic evidence gate accepts only conclusions supported by the observations.
+> **What works:** Muse Spark 1.3 reads the *public documentation* of an unfamiliar synthetic API and proposes an operation to crash at a lost-acknowledgment boundary. A separate, allowlisted SQLite fault executor replays a bounded retry, and an independent state check determines whether the intended effect happened exactly once. CrashLab can export an executable regression test and a standalone interactive replay.
+>
+> **What it does not do:** It does not run faults against real services, independently generate production fixes, or prove that Muse is generally better than deterministic planners. Muse **selects the crash plan**; a deterministic client **performs the retries and reports success**.
 
-**What this project demonstrates:** model-directed investigation, bounded tool execution, `VERIFIED` / `FAILED` / `INCONCLUSIVE` outcomes, explicit handling of unavailable readbacks, and comparison against non-LLM baselines. It is **not** a production payment, deployment, or security system.
+## Demo
 
-## Features
+**[Open the interactive replay](docs/index.html)** — self-contained HTML, no login or API key. The published GitHub Pages version (when enabled) renders the same file. The animated timeline is a **new deterministic replay of saved crash plans**, not a captured live Muse execution trace.
 
-- **Interactive local studio:** select a synthetic order, rollout, or refund case, then inspect the agent's claim, readbacks, model tool decisions, and evidence-backed verdict.
-- **Live Meta mode:** Muse Spark 1.3 calls allowlisted `inspect_evidence` and `submit_verdict` functions; the Python runner enforces argument checks, probe budgets, and tool-call limits.
-- **Independent verification:** the verdict is checked against a separate rule-based gate, not accepted merely because Muse says it is correct.
-- **Offline negative control:** deliberately submit an unsupported `VERIFIED` verdict with inadequate evidence and watch the gate reject it. **This injected verdict is not a mistake made by Muse.**
-- **Comparison:** same-case contract-aware, cheap-first, and seeded-random deterministic baselines, including evidence-acquisition cost.
-- **Reproducible synthetic receipts:** local JSON observations with a SHA-256 change-detection chain. This is **not** a signed or externally authenticated audit log.
+The demonstration shows two independently authored synthetic workflows:
+
+| Frozen challenge | Muse-selected operation | Muse: fault exposed? | Writes-first / keyword / single-seed random |
+| --- | --- | --- | --- |
+| Collection-visit booking | `book_collection_visit` | Yes | No / No / No |
+| Hive-load dispatch | `dispatch_hive_load` | Yes | Yes / Yes / Yes, for `request_block_survey` |
+
+**Recorded result:** Muse exposed a duplicate side effect in **2/2** frozen synthetic challenges; each heuristic exposed one in **1/2**. Synthetic severity-weighted scores were **8 vs. 2**. The random comparison uses **one fixed seed**, not a distribution. All four planners received **one operation selection per case**, and all compliant plans were tested at the same `after_commit_lost_ack` fault boundary.
+
+These are **descriptive, exploratory results for just two deliberately constructed workflows**. They do not establish statistical significance, model superiority, general agent reliability, or measured real-world financial damage. The private holdout simulator definitions and frozen evidence are intentionally not published; the HTML contains sanitized results and re-executed synthetic timelines. The public development fixture below **is** independently runnable.
 
 ## Run locally
 
-Tested on macOS using Python 3.14. Other Python versions and platforms have not yet been independently validated.
+Python 3.13+ recommended. Install the pinned dependencies from `requirements.txt` in a virtual environment, then:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
 python -m pytest -q tests
-python -m stateproof.m25_studio
+
+python -m stateproof.crashlab \
+  --contract contracts/support_credit.json \
+  --strategy keyword \
+  --html /tmp/crashlab_keyword.html
 ```
 
-Open **http://127.0.0.1:8765/index.html**. Choose a scenario, select **Replay deterministic gate (free)** or **Challenge the evidence gate (free)**. Neither uses the Meta API.
+This **offline development example** demonstrates a duplicate credit in a synthetic in-memory ledger. It is **not** one of the two frozen challenge workflows. The keyword heuristic finds the same issue as Muse on this development case.
 
-### Optional: live Meta investigation
-
-Configure `MODEL_API_KEY` locally. Never place a key in Git or send it to another person. With a valid Meta Model API account and available credits:
+To run an **optional paid Muse planning call** against the public development contract, provide your own Meta Model API credential via `MODEL_API_KEY`, then explicitly opt in:
 
 ```bash
-read -s MODEL_API_KEY
-export MODEL_API_KEY
-STATEPROOF_ENABLE_META=1 python -m stateproof.m25_studio --max-live 1
+python -m stateproof.crashlab \
+  --contract contracts/support_credit.json \
+  --strategy muse --live --effort high \
+  --out /tmp/crashlab_muse.json \
+  --html /tmp/crashlab_muse.html
 ```
 
-Open the same local address and click **Investigate with Meta Muse**. A live request consumes API credits and can incur charges after promotional credits are exhausted. `--max-live` restricts attempts in the current server session only; **it is not an account-level spending cap**, and restarting the server resets it.
+The public replay in `docs/index.html` **does not call Meta** and works offline.
 
-The studio binds to `127.0.0.1` and runs entirely on synthetic data. No real transactions, refunds, or production deployments are performed.
+## How it works
 
-## Reproducible demo sequence
+1. **Contract** — public operation descriptions, retry semantics, and business constraints are presented to Muse; private simulator definitions are not.
+2. **Plan** — Muse proposes an allowlisted operation, fault phase, hypothesis, and *suggested* readback. The readback suggestion is not executed as a separate tool call in the frozen comparison.
+3. **Execute** — an isolated in-memory SQLite simulator injects a lost acknowledgment after commit and runs a deterministic bounded-retry actor.
+4. **Verify** — a private state oracle counts external effects, independently of the actor's success report.
+5. **Export** — CrashLab can produce a failing regression assertion, check a narrowly scoped synthetic deduplication correction, and render a portable HTML failure replay.
 
-1. Choose a **rollout** case where the simulated agent claims the deployment succeeded.
-2. Run the **offline negative control**: the gate rejects `VERIFIED` when a CI success flag is the only evidence.
-3. Run an **offline replay**: an independent `runtime_revision` readback reveals that production remains on `r1` even though the contract requires `r2`.
-4. Optionally run the **live Muse investigation**: show the model choosing a readback and submitting a verdict; compare the result with the deterministic baselines.
+## Reproducibility and privacy
 
-For clean and unavailable-readback examples, an `INCONCLUSIVE` result can be the appropriate evidence-grounded outcome.
+- `stateproof/crashlab.py`: bounded planner and synthetic executor.
+- `stateproof/crashlab_eval.py`: frozen-manifest / SHA-256 validation and equal-budget protocol.
+- `stateproof/crashlab_regression.py`: executable synthetic regression export.
+- `stateproof/crashlab_showcase.py`: replay verification and sanitized standalone HTML.
+- `stateproof/crashpilot.py`: earlier separate Muse-as-actor diagnostic pilot, which **correctly recovered** from a lost refund acknowledgment.
+- `tests/`: executable unit and integration checks; 200 passed in the Oct 29–30 macOS development run.
 
-## What has been verified, and what has not
+Local evidence and frozen challenge contracts reside under `evidence/` and are gitignored. No real payment, customer, deployment, or internal Uber/Google data is used. SHA-256 digests are local change-detection checks; they are **not** independent cryptographic attestations.
 
-- **Verified in the development environment:** 146 automated tests passed; the local UI rendered; a live Muse Spark investigation selected `runtime_revision` and returned an evidence-supported `FAILED` verdict on a known synthetic deployment case; the independent offline negative control rejected an unsupported candidate.
-- **Not established:** superiority to strong deterministic baselines, production reliability, performance on unfamiliar real-world workflows, or methodological novelty. The contract-aware baseline reaches the same verdict at the same evidence cost in the demonstrated rollout case.
-- **Evaluation scope:** small, known synthetic examples; this is not yet a blinded external benchmark. Any demonstrated pilot examples should be distinguished from held-out testing.
+## Scope, limitations, and provenance
 
-## Implementation and provenance
+Commit-boundary fault injection, deterministic validation, idempotency/reconciliation, agent benchmarking, and LLM-based chaos engineering have substantial prior art. CrashLab claims **no invention of these techniques**. Its prototype contribution is the integrated **public-contract → model-selected crash plan → isolated execution → independent effect check → regression/replay** workflow.
 
-The project was developed during the October 2026 hackathon period. The October 26 feasibility harness is explicitly identified in source files; the later evidence gate, investigator, UI, and negative-control demo were developed subsequently. The public Git history is a checkpoint of the assembled prototype, not evidence that every component was authored at its commit timestamp.
+The initially committed StateProof baseline preceded these later CrashLab modules. Development evidence, original commits, and limitations are preserved; the project should be judged for the work actually implemented and demonstrated during the event. No unpublished DuraTrace/TRACE work or data is included.
 
-Main modules: `stateproof/evidence_game.py` (synthetic service and probes), `stateproof/m24_runner.py` (Muse investigator and execution controls), `stateproof/evidence_gate.py` (deterministic gate), `stateproof/m25_studio.py` (local studio), `stateproof/m26_negative_control.py` (offline control).
-
-## Safety and limitations
-
-Use only synthetic examples and approved read-only tools. Do not commit API credentials or real customer information. The model chooses evidence under a budget; the independent gate establishes what the observed evidence supports. This system is an educational/experimental prototype and does not attest the correctness or authorization of real transactions.
+**Do not interpret a deterministic actor's false-success report as a Muse false-success incident.**

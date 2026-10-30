@@ -1,0 +1,16 @@
+{
+  "public": {
+    "scenario": "Support compensation workflow",
+    "task": "Complete a support compensation action once; avoid duplicate customer effects.",
+    "operations": [
+      {"id": "open_case", "method": "POST", "description": "Creates a case keyed to the incoming ticket's stable source_event_id. Replaying the same event returns the same case without creating another case."},
+      {"id": "apply_credit", "method": "POST", "description": "Adds a 25-dollar goodwill credit to a customer ledger. Every accepted invocation posts a new credit; there is no request token or replay deduplication feature. Replies can be lost."},
+      {"id": "notify_customer", "method": "POST", "description": "Queues a notification of the credit; the provider can deduplicate deliveries by a message reference when supplied."}
+    ]
+  },
+  "private_simulator": {
+    "open_case": {"dedupe": "request_key", "severity": 2},
+    "apply_credit": {"dedupe": "none", "severity": 5},
+    "notify_customer": {"dedupe": "request_key", "severity": 1}
+  }
+}
