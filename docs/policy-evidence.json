@@ -1,0 +1,1071 @@
+{
+  "schema": "stateproof-crashlab-policy-eval-v1",
+  "created_utc": "2026-11-04T14:49:58.547375+00:00",
+  "evidence_type": "LIVE_META_MODEL_API_RESULT",
+  "strategy": "muse",
+  "synthetic": true,
+  "public_contract_sha256": "11c7d5ca312ba67c314ad6440aff444250cd7c0c107128db21604aff215dc2ad",
+  "policy": {
+    "policies": [
+      {
+        "action": "retry_same_key",
+        "operation_id": "reserve_slot",
+        "quote": "replaying the exact same key returns the original reservation without another hold",
+        "reason": "Documentation explicitly guarantees idempotency key deduplication prevents another hold, so ambiguous result permits same-key retry."
+      },
+      {
+        "action": "verify_then_escalate",
+        "operation_id": "charge_freight",
+        "quote": "Every accepted call creates an additional charge",
+        "reason": "Every call creates another charge and tracking ID is diagnostics only, so same-key retry would risk duplicate charge; must verify then escalate."
+      },
+      {
+        "action": "retry_same_key",
+        "operation_id": "create_manifest",
+        "quote": "The provider guarantees replay deduplication for the same request_key",
+        "reason": "Provider explicitly guarantees replay deduplication for same request_key, so same-key retry is safe."
+      },
+      {
+        "action": "verify_then_escalate",
+        "operation_id": "issue_voucher",
+        "quote": "repeating that ID does not prevent another voucher",
+        "reason": "Request ID is tracing only and does not prevent duplicate voucher, so must verify then escalate."
+      },
+      {
+        "action": "retry_same_key",
+        "operation_id": "register_device",
+        "quote": "repeating the same token returns the existing registration rather than creating a second record",
+        "reason": "Provider documents same-token repeat returns existing registration without second record, so same-key retry is safe."
+      },
+      {
+        "action": "verify_then_escalate",
+        "operation_id": "dispatch_driver",
+        "quote": "There is no replay deduplication",
+        "reason": "Each invocation incurs another charge and reference is auditing only with no deduplication, so must verify then escalate."
+      },
+      {
+        "action": "retry_same_key",
+        "operation_id": "notify_partner",
+        "quote": "Delivery is deduplicated on this same message reference",
+        "reason": "Delivery is explicitly deduplicated on same message reference with replay returning prior record, so same-key retry is safe."
+      }
+    ]
+  },
+  "meta": {
+    "model": "muse-spark-1.3",
+    "response_id": "resp_6aeb460fbf3f54cd3a6f4779",
+    "input_tokens": 1150,
+    "output_tokens": 1930
+  },
+  "evaluation": {
+    "policy_accuracy": {
+      "matched": 7,
+      "total": 7
+    },
+    "classifications": [
+      {
+        "operation_id": "reserve_slot",
+        "action": "retry_same_key",
+        "server_has_verified_deduplication": true,
+        "policy_matches_reference": true
+      },
+      {
+        "operation_id": "charge_freight",
+        "action": "verify_then_escalate",
+        "server_has_verified_deduplication": false,
+        "policy_matches_reference": true
+      },
+      {
+        "operation_id": "create_manifest",
+        "action": "retry_same_key",
+        "server_has_verified_deduplication": true,
+        "policy_matches_reference": true
+      },
+      {
+        "operation_id": "issue_voucher",
+        "action": "verify_then_escalate",
+        "server_has_verified_deduplication": false,
+        "policy_matches_reference": true
+      },
+      {
+        "operation_id": "register_device",
+        "action": "retry_same_key",
+        "server_has_verified_deduplication": true,
+        "policy_matches_reference": true
+      },
+      {
+        "operation_id": "dispatch_driver",
+        "action": "verify_then_escalate",
+        "server_has_verified_deduplication": false,
+        "policy_matches_reference": true
+      },
+      {
+        "operation_id": "notify_partner",
+        "action": "retry_same_key",
+        "server_has_verified_deduplication": true,
+        "policy_matches_reference": true
+      }
+    ],
+    "scores": {
+      "scenarios": 14,
+      "duplicates": 0,
+      "completed_correctly": 11,
+      "incomplete": 3,
+      "policy_overrides": 0
+    },
+    "rows": [
+      {
+        "operation_id": "reserve_slot",
+        "fault": "after_commit_lost_ack",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "retry_same_key",
+        "enforced_mode": "verified_idempotency",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 2,
+        "denied_writes": 0,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "accepted": true,
+              "deduplicated": true,
+              "ok": true
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "ALLOW_VERIFIED_IDEMPOTENT_RETRY",
+            "observed_outcome": "RESPONSE_RECEIVED"
+          }
+        ]
+      },
+      {
+        "operation_id": "reserve_slot",
+        "fault": "before_commit_timeout",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "retry_same_key",
+        "enforced_mode": "verified_idempotency",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 2,
+        "denied_writes": 0,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "accepted": true,
+              "deduplicated": false,
+              "ok": true
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "ALLOW_VERIFIED_IDEMPOTENT_RETRY",
+            "observed_outcome": "RESPONSE_RECEIVED"
+          }
+        ]
+      },
+      {
+        "operation_id": "charge_freight",
+        "fault": "after_commit_lost_ack",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "verify_then_escalate",
+        "enforced_mode": "hard_stop",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 1,
+        "denied_writes": 1,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "RETRY_NOT_AUTHORIZED",
+              "reason": "Previous write outcome may be ambiguous; no verified idempotency guarantee. Do not retry; inspect state or report uncertainty."
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "DENY",
+            "reason": "repeat_write_not_authorized_without_server_idempotency",
+            "ambiguous_prior_write": true
+          }
+        ]
+      },
+      {
+        "operation_id": "charge_freight",
+        "fault": "before_commit_timeout",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "verify_then_escalate",
+        "enforced_mode": "hard_stop",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 0,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": false,
+        "actor_report": {
+          "status": "UNKNOWN",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 1,
+        "denied_writes": 1,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "RETRY_NOT_AUTHORIZED",
+              "reason": "Previous write outcome may be ambiguous; no verified idempotency guarantee. Do not retry; inspect state or report uncertainty."
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "DENY",
+            "reason": "repeat_write_not_authorized_without_server_idempotency",
+            "ambiguous_prior_write": true
+          }
+        ]
+      },
+      {
+        "operation_id": "create_manifest",
+        "fault": "after_commit_lost_ack",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "retry_same_key",
+        "enforced_mode": "verified_idempotency",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 2,
+        "denied_writes": 0,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "accepted": true,
+              "deduplicated": true,
+              "ok": true
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "ALLOW_VERIFIED_IDEMPOTENT_RETRY",
+            "observed_outcome": "RESPONSE_RECEIVED"
+          }
+        ]
+      },
+      {
+        "operation_id": "create_manifest",
+        "fault": "before_commit_timeout",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "retry_same_key",
+        "enforced_mode": "verified_idempotency",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 2,
+        "denied_writes": 0,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "accepted": true,
+              "deduplicated": false,
+              "ok": true
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "ALLOW_VERIFIED_IDEMPOTENT_RETRY",
+            "observed_outcome": "RESPONSE_RECEIVED"
+          }
+        ]
+      },
+      {
+        "operation_id": "issue_voucher",
+        "fault": "after_commit_lost_ack",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "verify_then_escalate",
+        "enforced_mode": "hard_stop",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 1,
+        "denied_writes": 1,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "RETRY_NOT_AUTHORIZED",
+              "reason": "Previous write outcome may be ambiguous; no verified idempotency guarantee. Do not retry; inspect state or report uncertainty."
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "DENY",
+            "reason": "repeat_write_not_authorized_without_server_idempotency",
+            "ambiguous_prior_write": true
+          }
+        ]
+      },
+      {
+        "operation_id": "issue_voucher",
+        "fault": "before_commit_timeout",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "verify_then_escalate",
+        "enforced_mode": "hard_stop",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 0,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": false,
+        "actor_report": {
+          "status": "UNKNOWN",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 1,
+        "denied_writes": 1,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "RETRY_NOT_AUTHORIZED",
+              "reason": "Previous write outcome may be ambiguous; no verified idempotency guarantee. Do not retry; inspect state or report uncertainty."
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "DENY",
+            "reason": "repeat_write_not_authorized_without_server_idempotency",
+            "ambiguous_prior_write": true
+          }
+        ]
+      },
+      {
+        "operation_id": "register_device",
+        "fault": "after_commit_lost_ack",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "retry_same_key",
+        "enforced_mode": "verified_idempotency",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 2,
+        "denied_writes": 0,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "accepted": true,
+              "deduplicated": true,
+              "ok": true
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "ALLOW_VERIFIED_IDEMPOTENT_RETRY",
+            "observed_outcome": "RESPONSE_RECEIVED"
+          }
+        ]
+      },
+      {
+        "operation_id": "register_device",
+        "fault": "before_commit_timeout",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "retry_same_key",
+        "enforced_mode": "verified_idempotency",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 2,
+        "denied_writes": 0,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "accepted": true,
+              "deduplicated": false,
+              "ok": true
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "ALLOW_VERIFIED_IDEMPOTENT_RETRY",
+            "observed_outcome": "RESPONSE_RECEIVED"
+          }
+        ]
+      },
+      {
+        "operation_id": "dispatch_driver",
+        "fault": "after_commit_lost_ack",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "verify_then_escalate",
+        "enforced_mode": "hard_stop",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 1,
+        "denied_writes": 1,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "RETRY_NOT_AUTHORIZED",
+              "reason": "Previous write outcome may be ambiguous; no verified idempotency guarantee. Do not retry; inspect state or report uncertainty."
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "DENY",
+            "reason": "repeat_write_not_authorized_without_server_idempotency",
+            "ambiguous_prior_write": true
+          }
+        ]
+      },
+      {
+        "operation_id": "dispatch_driver",
+        "fault": "before_commit_timeout",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "verify_then_escalate",
+        "enforced_mode": "hard_stop",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 0,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": false,
+        "actor_report": {
+          "status": "UNKNOWN",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 1,
+        "denied_writes": 1,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "RETRY_NOT_AUTHORIZED",
+              "reason": "Previous write outcome may be ambiguous; no verified idempotency guarantee. Do not retry; inspect state or report uncertainty."
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "DENY",
+            "reason": "repeat_write_not_authorized_without_server_idempotency",
+            "ambiguous_prior_write": true
+          }
+        ]
+      },
+      {
+        "operation_id": "notify_partner",
+        "fault": "after_commit_lost_ack",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "retry_same_key",
+        "enforced_mode": "verified_idempotency",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 2,
+        "denied_writes": 0,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "accepted": true,
+              "deduplicated": true,
+              "ok": true
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "ALLOW_VERIFIED_IDEMPOTENT_RETRY",
+            "observed_outcome": "RESPONSE_RECEIVED"
+          }
+        ]
+      },
+      {
+        "operation_id": "notify_partner",
+        "fault": "before_commit_timeout",
+        "readback_fault": "stale_zero_once",
+        "model_policy_action": "retry_same_key",
+        "enforced_mode": "verified_idempotency",
+        "model_claim_rejected_by_trusted_adapter": false,
+        "committed_effects": 1,
+        "expected_effects": 1,
+        "duplicated": false,
+        "completed_correctly": true,
+        "actor_report": {
+          "status": "DONE",
+          "reason": "HTTP readback after retry"
+        },
+        "attempted_http_writes": 2,
+        "denied_writes": 0,
+        "actor_events": [
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "ok": false,
+              "error": "TIMEOUT_OUTCOME_UNKNOWN",
+              "transport": "RemoteDisconnected"
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 0,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          },
+          {
+            "tool": "perform_operation",
+            "observation": {
+              "accepted": true,
+              "deduplicated": false,
+              "ok": true
+            }
+          },
+          {
+            "tool": "inspect_ledger",
+            "observation": {
+              "effect_count": 1,
+              "expected_count": 1,
+              "intent_id": "SYNTHETIC-INTENT-001",
+              "ok": true
+            }
+          }
+        ],
+        "boundary_events": [
+          {
+            "requested_call": 1,
+            "decision": "ALLOW_FIRST",
+            "observed_outcome": "AMBIGUOUS"
+          },
+          {
+            "requested_call": 2,
+            "decision": "ALLOW_VERIFIED_IDEMPOTENT_RETRY",
+            "observed_outcome": "RESPONSE_RECEIVED"
+          }
+        ]
+      }
+    ]
+  },
+  "methodology": {
+    "faults": [
+      "after_commit_lost_ack",
+      "before_commit_timeout"
+    ],
+    "readback_fault": "stale_zero_once",
+    "actor": "deterministic_readback_first_client_not_muse_actor",
+    "engine": "real_local_loopback_HTTP_and_file_backed_SQLite",
+    "oracle": "direct_SQLite_count_not_readback_or_model_claim",
+    "enforcement": "model_recommendation_requires_trusted_adapter_deduplication_for_retry"
+  },
+  "limitations": [
+    "Tiny synthetic API contracts; no population-level performance claims.",
+    "Model outputs propose policies; a deterministic actor executes the evaluation.",
+    "Trusted local reference adapter knows server dedupe configuration; real vendors require independent verification.",
+    "Always-retry proposals cannot bypass a non-idempotent server's enforcing boundary.",
+    "Results are deterministic conditional on one generated policy; no model reliability rate.",
+    "The policies do not make arbitrary distributed systems exactly once."
+  ],
+  "receipt_sha256": "b0891dbd0221917911e82b5c1b366efa40f89b0d6b852bbbb4235db7188cb76e",
+  "protocol_sha256": "d531c4efd7dfe611ecc16ef6e1e0adc28121dcb9bda692cbaa9afbc59cdbb54a",
+  "git_commit_at_run": "701e4d889560d348d8dd99d3ab5a931cdcf2caf0"
+}
