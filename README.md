@@ -1,5 +1,8 @@
 # StateProof CrashLab
 
+**Start here — guided judge demo:** [Observe the Muse failure, guarded continuation, and contract audit](https://praneethhere.github.io/stateproof-meta-hackathon/experience.html). This is an interactive playback of recorded and deterministic local experiments, not a hosted model endpoint.
+
+
 **Contract-aware fault discovery, real HTTP agent-recovery experiments, and independently checked retry safeguards.**
 Meta Global AI Developer Hackathon 2026 · Indie / Push the Frontier
 
