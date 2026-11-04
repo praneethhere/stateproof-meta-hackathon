@@ -14,6 +14,7 @@ It combines two complementary prototypes:
 2. **Recover and protect:** An actual Muse tool-calling agent operates an isolated local HTTP + file-backed SQLite service. CrashLab injects ambiguous commits, stale or unavailable readbacks, records what really committed, and evaluates a tool-level retry boundary. The recorded unsafe Muse action is also tested with a **post-hoc counterfactual replay**, not a second live model continuation.
 
 ## Interactive demonstrations
+- **[Two recorded Muse contrastive policy challenges](https://praneethhere.github.io/stateproof-meta-hackathon/contrast.html)** — six hand-authored minimal semantic pairs in two frozen batches; report model policy grades against transparent weak controls and verified HTTP/SQLite tests.
 - **[Recorded Muse + synthetic contract-drift audit](https://praneethhere.github.io/stateproof-meta-hackathon/audit.html)** — deliberate local sandbox implementation mismatch; actual HTTP/SQLite probe; separate saved live Muse guard continuation. This is a post-hoc demonstration, not a provider incident.
 - **[Recorded Muse contract-to-retry-policy evaluation](https://praneethhere.github.io/stateproof-meta-hackathon/policy.html)** — one model-authored policy evaluated by a deterministic client on isolated HTTP + SQLite; trusted adapter verifies retry authorization.
 

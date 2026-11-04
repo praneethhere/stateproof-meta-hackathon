@@ -1,0 +1,152 @@
+{
+  "schema": "stateproof-crashlab-contrastive-summary-v1",
+  "created_utc": "2026-11-04T18:06:46.096267+00:00",
+  "evidence_type": "TWO_RECORDED_META_RESPONSES_PLUS_DETERMINISTIC_SYNTHETIC_SCORING",
+  "experiment": "six_author_designed_synthetic_minimal_pairs_two_precommitted_batches",
+  "protocol_sha256": "07715a4ae710e396a358b14e824a0e9b3bc0736a45fe2e928920e2a02cec157c",
+  "pair_map_sha256": "0f6a764231dca002720043e2f2b32790b95f8b823c8987a7a5f9b1ff4d316e78",
+  "score": {
+    "policy_correct": 12,
+    "operations": 12,
+    "correct_final_state": 18,
+    "scenarios": 24,
+    "duplicates": 0,
+    "incomplete": 6,
+    "pairs_both_correct": 6,
+    "pairs": 6
+  },
+  "weak_baseline_classification": {
+    "conservative": 6,
+    "always_retry": 6,
+    "naive_keyword": 6,
+    "negation_keyword": 6
+  },
+  "baseline_complete_pairs": {
+    "conservative": 0,
+    "always_retry": 0,
+    "naive_keyword": 0,
+    "negation_keyword": 0
+  },
+  "extra_control_frozen_before_model_calls": true,
+  "sources": [
+    {
+      "fixture": "contrastive_semantics_a.json",
+      "response_id": "resp_6aeb741aca74f5a7cc7a4428",
+      "receipt_sha256": "9a585683d8f88d5b975659145538bec5109ac1310b62025fd6e964be4d36b30e",
+      "git_commit_at_run": "3d9ccba45d92f2c62413aacbc55889cafd7cca9d"
+    },
+    {
+      "fixture": "contrastive_semantics_b.json",
+      "response_id": "resp_6aeb742fadd3271a13094fb2",
+      "receipt_sha256": "399f1d6c4a61c745ac2e20324e661bda0192388a98b0a0d801e0900407a0aae4",
+      "git_commit_at_run": "3d9ccba45d92f2c62413aacbc55889cafd7cca9d"
+    }
+  ],
+  "operations": [
+    {
+      "operation_id": "op_m2r9",
+      "reference": "verify_then_escalate",
+      "muse_action": "verify_then_escalate",
+      "muse_quote": "creates an additional hold",
+      "correct": true,
+      "pair_name": "slot_reserve"
+    },
+    {
+      "operation_id": "op_k8q4",
+      "reference": "retry_same_key",
+      "muse_action": "retry_same_key",
+      "muse_quote": "returns the existing hold and never makes another hold",
+      "correct": true,
+      "pair_name": "slot_reserve"
+    },
+    {
+      "operation_id": "op_t3a7",
+      "reference": "retry_same_key",
+      "muse_action": "retry_same_key",
+      "muse_quote": "is suppressed at commit by a uniqueness constraint",
+      "correct": true,
+      "pair_name": "freight_capture"
+    },
+    {
+      "operation_id": "op_v6j1",
+      "reference": "verify_then_escalate",
+      "muse_action": "verify_then_escalate",
+      "muse_quote": "is not suppressed at commit",
+      "correct": true,
+      "pair_name": "freight_capture"
+    },
+    {
+      "operation_id": "op_d9w2",
+      "reference": "verify_then_escalate",
+      "muse_action": "verify_then_escalate",
+      "muse_quote": "not an enforced unique key",
+      "correct": true,
+      "pair_name": "driver_assign"
+    },
+    {
+      "operation_id": "op_p4n8",
+      "reference": "retry_same_key",
+      "muse_action": "retry_same_key",
+      "muse_quote": "It is an enforced unique key",
+      "correct": true,
+      "pair_name": "driver_assign"
+    },
+    {
+      "operation_id": "op_g5c3",
+      "reference": "retry_same_key",
+      "muse_action": "retry_same_key",
+      "muse_quote": "guarantees identical-nonce retries only read that mapping",
+      "correct": true,
+      "pair_name": "device_enroll"
+    },
+    {
+      "operation_id": "op_s7x1",
+      "reference": "verify_then_escalate",
+      "muse_action": "verify_then_escalate",
+      "muse_quote": "a second registration may be produced",
+      "correct": true,
+      "pair_name": "device_enroll"
+    },
+    {
+      "operation_id": "op_h8f4",
+      "reference": "verify_then_escalate",
+      "muse_action": "verify_then_escalate",
+      "muse_quote": "the message is sent and billed a second time",
+      "correct": true,
+      "pair_name": "webhook_deliver"
+    },
+    {
+      "operation_id": "op_r2b6",
+      "reference": "retry_same_key",
+      "muse_action": "retry_same_key",
+      "muse_quote": "without sending or billing the message a second time",
+      "correct": true,
+      "pair_name": "webhook_deliver"
+    },
+    {
+      "operation_id": "op_y1m5",
+      "reference": "retry_same_key",
+      "muse_action": "retry_same_key",
+      "muse_quote": "server-side uniqueness prevents duplicate voucher creation",
+      "correct": true,
+      "pair_name": "voucher_issue"
+    },
+    {
+      "operation_id": "op_n4k7",
+      "reference": "verify_then_escalate",
+      "muse_action": "verify_then_escalate",
+      "muse_quote": "server-side uniqueness does not prevent duplicate voucher creation",
+      "correct": true,
+      "pair_name": "voucher_issue"
+    }
+  ],
+  "limitations": [
+    "Two model responses total, one per hand-authored fixture; not a model population performance estimate.",
+    "Minimal pairs and reference labels were constructed by the same project team.",
+    "Keyword heuristic is intentionally simplistic; neither it nor conservative/always-retry is a strong language baseline.",
+    "A trusted adapter protects HTTP execution; correct final state is NOT evidence of Muse-alone safety.",
+    "The underlying fault scenarios use a deterministic actor, not live Muse tool execution.",
+    "No claim of novelty or superiority to a frontier-model baseline is supported."
+  ],
+  "receipt_sha256": "93fcc7935c2a67e9229922c927abd8bbb7670c590273569c9ebbccf7b560a44e"
+}
