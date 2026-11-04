@@ -11,6 +11,7 @@ It combines two complementary prototypes:
 2. **Recover and protect:** An actual Muse tool-calling agent operates an isolated local HTTP + file-backed SQLite service. CrashLab injects ambiguous commits, stale or unavailable readbacks, records what really committed, and evaluates a tool-level retry boundary. The recorded unsafe Muse action is also tested with a **post-hoc counterfactual replay**, not a second live model continuation.
 
 ## Interactive demonstrations
+- **[Recorded Muse + synthetic contract-drift audit](https://praneethhere.github.io/stateproof-meta-hackathon/audit.html)** — deliberate local sandbox implementation mismatch; actual HTTP/SQLite probe; separate saved live Muse guard continuation. This is a post-hoc demonstration, not a provider incident.
 - **[Recorded Muse contract-to-retry-policy evaluation](https://praneethhere.github.io/stateproof-meta-hackathon/policy.html)** — one model-authored policy evaluated by a deterministic client on isolated HTTP + SQLite; trusted adapter verifies retry authorization.
 
 - **[Contract-to-crash planner](https://praneethhere.github.io/stateproof-meta-hackathon/)** — two locally frozen *synthetic* workflows; compare Muse with a writes-first control (the keyword and seeded-random controls selected the same operations) and play a new synthetic replay.
@@ -46,6 +47,9 @@ The M7 live matrix was completed as a separately labeled **follow-up after earli
 ### C. Retry authorization and its cost
 
 A local deterministic adapter checks whether a second write is authorized **before it reaches HTTP**. In a counterfactual replay of the *recorded* Muse action prefix, the guard rejected the second write and the independent ledger showed **1 effect rather than 2**. No new model call was made in that replay; **Muse's continuation after the denied call was not observed**.
+
+
+**Separate November 4 live Muse guard episode:** In a newly recorded agent run, Muse requested two writes under lost-acknowledgment and stale-read faults; the hard-stop boundary denied the second HTTP write. Muse continued and reported `DONE` after observing one ledger effect, matching the independent SQLite oracle (one episode). This is **not** the continuation of the original M7 failure or the no-model M8B counterfactual. The separately verified, sanitized tool sequence appears in the [contract-drift audit](https://praneethhere.github.io/stateproof-meta-hackathon/audit.html).
 
 The hard-stop guard also blocks a legitimate retry after a *pre-commit timeout*, leaving **0/1 effects**. In the local reference service, verified request-key deduplication allows retries without duplicate effects. These are engineering trade-offs, not a claim of universal exactly-once semantics or a production-ready safety guarantee.
 
