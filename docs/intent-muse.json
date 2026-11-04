@@ -1,4 +1,19 @@
 {
   "schema": "stateproof-muse-test-design-v1",
-  "status": "not_run"
+  "status": "unscored",
+  "model": "muse-spark-1.3",
+  "frozen_git_commit": "3baad0494ba2d583dad8b020749ca02b96b5cf5f",
+  "created_utc": "2026-11-04T19:54:44.005715+00:00",
+  "model_request_number": 1,
+  "request_sha256": "58266f83492b6de29cc2678e31dda180e24c3320f31adf893cb9539b2847bc17",
+  "protocol_sha256": "8d15cc04d9f642189c18120df60155b2c9148aef89f658499538725778e388fa",
+  "response_id": "resp_6aeb8db058e23cd820004493",
+  "usage": {
+    "input_tokens": 925,
+    "output_tokens": 5000
+  },
+  "failure_stage": "parse_response",
+  "failure_class": "ValueError",
+  "http_status": null,
+  "sha256": "822f0477043492816b820d33c55fff3870573bafc51a52c3870f4c355f746fe0"
 }
