@@ -41,4 +41,4 @@ The booking workbench executes synthetic reservation writes in the visitor’s b
 
 The Redis Streams compatibility check was added on November 4. The unmodified Redis 8.6.0 tarball was verified against the upstream `redis/redis-hashes` SHA-256 (`d7e5f65f0bb0b4753d0cf98a60f5409a7c9b430ff8ac3397d336260cf64e5a6e`). Only our client, the measured rows and the reproduction command are included. Redis documents the command semantics. No Muse call is attributed to the Redis experiment.
 
-The contrast page table labels and paired-score display were edited after scoring. The two model receipts, recorded summary, frozen fixtures and pre-call addendum are unchanged. The narrated film shows captured project screens, actual downloaded-test output and a stock synthesized voice.
+The contrast page table labels and paired-score display were edited after scoring. The two model receipts, recorded summary, frozen fixtures and pre-call addendum are unchanged.

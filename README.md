@@ -2,9 +2,9 @@
 
 **[Run a booking crash test in your browser](https://praneethhere.github.io/stateproof-meta-hackathon/retry-lab.html)** · Execute SQLite writes, change a real index, inspect the rows, and download a standalone Python regression. The test uses the recorded Muse booking policy.
 
-**[Watch the 2:36 narrated demo](https://praneethhere.github.io/stateproof-meta-hackathon/stateproof-demo.mp4)** · **[Compare the six frozen Muse contract pairs](https://praneethhere.github.io/stateproof-meta-hackathon/contrast.html)**
+**[Compare the six frozen Muse contract pairs](https://praneethhere.github.io/stateproof-meta-hackathon/contrast.html)**
 
-[![Booking retry workbench with two SQLite rows under the saved policy and one after the probe](docs/demo-poster.webp)](https://praneethhere.github.io/stateproof-meta-hackathon/stateproof-demo.mp4)
+[![Booking retry workbench with two SQLite rows under the saved policy and one after the probe](docs/demo-poster.webp)](https://praneethhere.github.io/stateproof-meta-hackathon/retry-lab.html)
 
 **Guided walkthrough:** [Observe the Muse failure, guarded continuation, and contract audit](https://praneethhere.github.io/stateproof-meta-hackathon/experience.html). This is an interactive playback of recorded and deterministic local experiments, not a hosted model endpoint.
 
