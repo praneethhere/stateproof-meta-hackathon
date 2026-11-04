@@ -1,0 +1,263 @@
+{
+  "schema": "stateproof-redis-streams-v1",
+  "engine": "Redis",
+  "version": "8.6.0",
+  "created_utc": "2026-11-04T18:12:07.855735+00:00",
+  "reference": "https://redis.io/docs/latest/develop/data-types/streams/idempotency/",
+  "method": "The server accepted the first append. A separate connection checked XLEN before the producer closed its socket without reading the reply. After an immediate retry, a separate connection queried XRANGE.",
+  "scope": "Disposable loopback server; synthetic shipment intents; no model call; no persistence, failover process, window expiration or downstream delivery was measured.",
+  "cases": [
+    {
+      "id": "plain",
+      "title": "Business ID in the message body",
+      "first_command": [
+        "XADD",
+        "crashlab-plain",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "retry_command": [
+        "XADD",
+        "crashlab-plain",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "observed_before_retry": 1,
+      "retry_reply": "1793815927760-0",
+      "entries": [
+        {
+          "stream_id": "1793815927758-0",
+          "fields": {
+            "shipment": "shipment-1042",
+            "attempt": "1"
+          }
+        },
+        {
+          "stream_id": "1793815927760-0",
+          "fields": {
+            "shipment": "shipment-1042",
+            "attempt": "1"
+          }
+        }
+      ],
+      "entry_count": 2
+    },
+    {
+      "id": "explicit",
+      "title": "Same producer and idempotent ID",
+      "first_command": [
+        "XADD",
+        "crashlab-explicit",
+        "IDMP",
+        "producer-A",
+        "shipment-1042",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "retry_command": [
+        "XADD",
+        "crashlab-explicit",
+        "IDMP",
+        "producer-A",
+        "shipment-1042",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "observed_before_retry": 1,
+      "retry_reply": "1793815927769-0",
+      "entries": [
+        {
+          "stream_id": "1793815927769-0",
+          "fields": {
+            "shipment": "shipment-1042",
+            "attempt": "1"
+          }
+        }
+      ],
+      "entry_count": 1
+    },
+    {
+      "id": "producer",
+      "title": "Producer changes during failover",
+      "first_command": [
+        "XADD",
+        "crashlab-producer",
+        "IDMP",
+        "producer-A",
+        "shipment-1042",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "retry_command": [
+        "XADD",
+        "crashlab-producer",
+        "IDMP",
+        "producer-B",
+        "shipment-1042",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "observed_before_retry": 1,
+      "retry_reply": "1793815927780-1",
+      "entries": [
+        {
+          "stream_id": "1793815927780-0",
+          "fields": {
+            "shipment": "shipment-1042",
+            "attempt": "1"
+          }
+        },
+        {
+          "stream_id": "1793815927780-1",
+          "fields": {
+            "shipment": "shipment-1042",
+            "attempt": "1"
+          }
+        }
+      ],
+      "entry_count": 2
+    },
+    {
+      "id": "auto",
+      "title": "Same producer and identical contents",
+      "first_command": [
+        "XADD",
+        "crashlab-auto",
+        "IDMPAUTO",
+        "producer-A",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "retry_command": [
+        "XADD",
+        "crashlab-auto",
+        "IDMPAUTO",
+        "producer-A",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "observed_before_retry": 1,
+      "retry_reply": "1793815927790-0",
+      "entries": [
+        {
+          "stream_id": "1793815927790-0",
+          "fields": {
+            "shipment": "shipment-1042",
+            "attempt": "1"
+          }
+        }
+      ],
+      "entry_count": 1
+    },
+    {
+      "id": "auto_content",
+      "title": "Retry changes the attempt field",
+      "first_command": [
+        "XADD",
+        "crashlab-auto_content",
+        "IDMPAUTO",
+        "producer-A",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "retry_command": [
+        "XADD",
+        "crashlab-auto_content",
+        "IDMPAUTO",
+        "producer-A",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "2"
+      ],
+      "observed_before_retry": 1,
+      "retry_reply": "1793815927799-0",
+      "entries": [
+        {
+          "stream_id": "1793815927797-0",
+          "fields": {
+            "shipment": "shipment-1042",
+            "attempt": "1"
+          }
+        },
+        {
+          "stream_id": "1793815927799-0",
+          "fields": {
+            "shipment": "shipment-1042",
+            "attempt": "2"
+          }
+        }
+      ],
+      "entry_count": 2
+    },
+    {
+      "id": "explicit_content",
+      "title": "Explicit ID survives a changed attempt field",
+      "first_command": [
+        "XADD",
+        "crashlab-explicit_content",
+        "IDMP",
+        "producer-A",
+        "shipment-1042",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "1"
+      ],
+      "retry_command": [
+        "XADD",
+        "crashlab-explicit_content",
+        "IDMP",
+        "producer-A",
+        "shipment-1042",
+        "*",
+        "shipment",
+        "shipment-1042",
+        "attempt",
+        "2"
+      ],
+      "observed_before_retry": 1,
+      "retry_reply": "1793815927801-0",
+      "entries": [
+        {
+          "stream_id": "1793815927801-0",
+          "fields": {
+            "shipment": "shipment-1042",
+            "attempt": "1"
+          }
+        }
+      ],
+      "entry_count": 1
+    }
+  ],
+  "sha256": "cc7555fd3b360677bbe00cb886d4f22e0e09bc467aae3251c788f73f232ccbb3"
+}

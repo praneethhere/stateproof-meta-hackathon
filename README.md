@@ -1,6 +1,12 @@
 # StateProof CrashLab
 
-**Start here — guided judge demo:** [Observe the Muse failure, guarded continuation, and contract audit](https://praneethhere.github.io/stateproof-meta-hackathon/experience.html). This is an interactive playback of recorded and deterministic local experiments, not a hosted model endpoint.
+**[Run a booking crash test in your browser](https://praneethhere.github.io/stateproof-meta-hackathon/retry-lab.html)** · Execute SQLite writes, change a real index, inspect the rows, and download a standalone Python regression. The test uses the recorded Muse booking policy.
+
+**[Watch the 2:36 narrated demo](https://praneethhere.github.io/stateproof-meta-hackathon/stateproof-demo.mp4)** · **[Compare the six frozen Muse contract pairs](https://praneethhere.github.io/stateproof-meta-hackathon/contrast.html)**
+
+[![Booking retry workbench with two SQLite rows under the saved policy and one after the probe](docs/demo-poster.webp)](https://praneethhere.github.io/stateproof-meta-hackathon/stateproof-demo.mp4)
+
+**Guided walkthrough:** [Observe the Muse failure, guarded continuation, and contract audit](https://praneethhere.github.io/stateproof-meta-hackathon/experience.html). This is an interactive playback of recorded and deterministic local experiments, not a hosted model endpoint.
 
 
 **Contract-aware fault discovery, real HTTP agent-recovery experiments, and independently checked retry safeguards.**
@@ -21,7 +27,7 @@ It combines two complementary prototypes:
 - **[Contract-to-crash planner](https://praneethhere.github.io/stateproof-meta-hackathon/)** — two locally frozen *synthetic* workflows; compare Muse with a writes-first control (the keyword and seeded-random controls selected the same operations) and play a new synthetic replay.
 - **[Observed recovery failure and guarded replay](https://praneethhere.github.io/stateproof-meta-hackathon/recovery.html)** — the saved tool sequence from a genuine Muse execution on a local HTTP service, the independent state result, and a separate replay that blocks the recorded second write. Includes the safety-versus-completion trade-off.
 
-Both pages are standalone HTML and require no account, API key, or backend. They are **interactive evidence viewers**, not publicly hosted arbitrary-API fault injection services. The second page shows a recorded Muse episode; its guarded branch **does not** assert how Muse would have responded after the denial.
+The saved-evidence pages run without an account or API key. The original recovery page displays the recorded episode and a counterfactual replay. The separate booking workbench executes fresh SQLite transactions in the browser.
 
 ## What the experiments actually found
 
@@ -115,14 +121,14 @@ Optional Meta experiments require your own `MODEL_API_KEY` and explicit `--live`
 | Integrated case study | `stateproof/crashlab_case_study.py` | Source-checked recovery page and evidence export |
 | Tests | `tests/` | Unit, model-fake, and loopback integration tests |
 
-**Local test history:** 271 tests previously passed with the earlier StateProof Lab files present. After excluding that earlier work, the CrashLab-only test count must be rechecked from the cleaned repository (125 passed in the November 2 independent review, before the new policy tests). No test count establishes model superiority or novelty.
+**Reproduce the tests:** use `python -m pytest -q tests`. To exercise the optional real Redis integration, point `STATEPROOF_REDIS_SERVER` at a Redis 8.6+ binary.
 
 ## Safety, provenance, and limitations
 
 - Experiments are restricted to an isolated synthetic local HTTP + SQLite service; no real customer, finance, production, or internal-company data was used.
 - `evidence/` contains local frozen manifests, raw model receipts, and private simulator definitions, and is excluded from Git. The public HTML contains sanitized results. SHA-256 receipt hashes detect local changes; they are **not** independent cryptographic attestations.
 - Model decisions and readback observations are separate from private committed-state checks. A model's **suggested** readback in the planning experiment is not the same as an executed agent readback in the HTTP experiment.
-- The replayed guard intervention is **post-hoc**. A separate live Muse+guard attempt encountered a Meta Model API 503; it produced no completed intervention receipt.
+- The replayed guard intervention is **post-hoc**. An earlier live Muse+guard attempt encountered a Meta Model API 503. The separate November 4 run completed and is recorded in the audit receipt.
 - The guard can sacrifice task completion when the first request did not commit; it is not a universal idempotency or exactly-once protocol.
 - Commit-boundary failures, stale reads, agent chaos testing, and idempotency have substantial prior art (including September 2026 LIMBO and earlier chaos-engineering work). **We do not claim to have invented these mechanisms or proven a generally superior model.**
 - The older StateProof Lab reference implementation, including an October 26 PREBUILD-labelled file, is excluded from the submission tree. Git history remains visible. See [PROVENANCE.md](PROVENANCE.md); Git commit timestamps alone do not prove authoring dates.
@@ -150,4 +156,20 @@ python -m stateproof.crashlab_policy --strategy muse --live --accept-api-cost \
   --public-out docs/policy-evidence.json --html docs/policy.html
 ```
 
-Do not cite a Muse policy result or claim the new public page exists until the API run succeeds, the exported files are manually reviewed, and they are pushed. The new policy study uses a deterministic actor, **not a second live Muse actor continuation**.
+The recorded policy and all fourteen local fault outcomes are available in [the public receipt](docs/policy-evidence.json). A deterministic client ran these fault checks.
+
+## Run the booking and queue checks
+
+The [live booking workbench](https://praneethhere.github.io/stateproof-meta-hackathon/retry-lab.html) uses a previously recorded Muse policy. Change the index or the commit timing, then inspect actual SQLite rows from the browser. The exported `test_stateproof_retry.py` checks that exactly one reservation survives. Run it with `python test_stateproof_retry.py`. The faulty index deliberately produces a red test. The repaired index with a forwarded key passes. The SQL engine executes locally. Lost acknowledgements in this workbench are injected at the application boundary. The earlier HTTP agent episodes are separately recorded experiments.
+
+The same page includes a [Redis Streams receipt](docs/redis-stream-evidence.json) from an unmodified Redis 8.6.0 server. An independent connection saw the original append before the producer disconnected without reading its reply. Immediate reissues with the same producer and explicit idempotent ID left one entry. Switching only the producer left two. Six rows and their actual commands are public. This test exercises the server directly and makes no model calls. It measures stream insertion, with persistence disabled, on a disposable loopback server.
+
+```bash
+# With redis-server 8.6+ on PATH; runs a new private local instance.
+python -m stateproof.redis_stream_probe --out /tmp/stateproof_redis_streams.json
+
+# Rebuild browser inputs from the checked-in model and Redis receipts.
+python -m stateproof.build_retry_lab
+```
+
+The Redis semantics and SQLite constraints are documented upstream. The CrashLab contribution is connecting a model-authored policy to an executable retry, a state check and a portable regression. [Redis Streams](https://redis.io/docs/latest/develop/data-types/streams/idempotency/) · [SQLite uniqueness constraints](https://sqlite.org/lang_createtable.html#uniqueconst)

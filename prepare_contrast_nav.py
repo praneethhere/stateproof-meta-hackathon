@@ -27,4 +27,7 @@ head='## Interactive demonstrations\n'
 assert s.count(head)==1
 bullet='- **[Two recorded Muse contrastive policy challenges](https://praneethhere.github.io/stateproof-meta-hackathon/contrast.html)** — six hand-authored minimal semantic pairs in two frozen batches; report model policy grades against transparent weak controls and verified HTTP/SQLite tests.\n'
 if bullet not in s:readme.write_text(s.replace(head,head+bullet,1),encoding='utf8')
+if Path('stateproof/build_retry_lab.py').is_file():
+    from stateproof.build_retry_lab import javascript
+    Path('docs/retry-lab-data.js').write_text(javascript(), encoding='utf8')
 print('Verified contrastive summary linked to homepage and README')

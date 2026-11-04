@@ -34,3 +34,11 @@ ChatGPT assisted with prototype design and implementation. Claude Opus 5.5 provi
 - Lost acknowledgments, stale readbacks, idempotency keys, and retry authorization are established engineering/research topics; this project does **not** claim to invent those mechanisms.
 
 See [POLICY_PROTOCOL.md](POLICY_PROTOCOL.md) for the new policy experiment's pre-run specification, and [README.md](README.md) for reproducibility instructions.
+
+## November 4 executable workbench
+
+The booking workbench executes synthetic reservation writes in the visitor’s browser. The SQLite engine is an unmodified sql.js distribution with its upstream license in `docs/vendor`. The experiment selection, index controls, independent probes, Python regression exporter and recorded-policy integration were added for CrashLab with ChatGPT assistance. The browser reuses the existing Muse booking policy and makes zero new inference calls. The recorded HTTP agent runs remain separate.
+
+The Redis Streams compatibility check was added on November 4. The unmodified Redis 8.6.0 tarball was verified against the upstream `redis/redis-hashes` SHA-256 (`d7e5f65f0bb0b4753d0cf98a60f5409a7c9b430ff8ac3397d336260cf64e5a6e`). Only our client, the measured rows and the reproduction command are included. Redis documents the command semantics. No Muse call is attributed to the Redis experiment.
+
+The contrast page table labels and paired-score display were edited after scoring. The two model receipts, recorded summary, frozen fixtures and pre-call addendum are unchanged. The narrated film shows captured project screens, actual downloaded-test output and a stock synthesized voice.
