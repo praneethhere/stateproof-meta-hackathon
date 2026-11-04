@@ -12,7 +12,7 @@ It combines two complementary prototypes:
 
 ## Interactive demonstrations
 
-- **[Contract-to-crash planner](https://praneethhere.github.io/stateproof-meta-hackathon/)** — two frozen, independently authored *synthetic* workflows; compare Muse's proposed crash operation with three deterministic strategies and play a new synthetic replay.
+- **[Contract-to-crash planner](https://praneethhere.github.io/stateproof-meta-hackathon/)** — two locally frozen *synthetic* workflows; compare Muse with a writes-first control (the keyword and seeded-random controls selected the same operations) and play a new synthetic replay.
 - **[Observed recovery failure and guarded replay](https://praneethhere.github.io/stateproof-meta-hackathon/recovery.html)** — the saved tool sequence from a genuine Muse execution on a local HTTP service, the independent state result, and a separate replay that blocks the recorded second write. Includes the safety-versus-completion trade-off.
 
 Both pages are standalone HTML and require no account, API key, or backend. They are **interactive evidence viewers**, not publicly hosted arbitrary-API fault injection services. The second page shows a recorded Muse episode; its guarded branch **does not** assert how Muse would have responded after the denial.
@@ -21,12 +21,12 @@ Both pages are standalone HTML and require no account, API key, or backend. They
 
 ### A. Crash-plan selection on unfamiliar synthetic contracts
 
-| Frozen case | Muse-selected operation | Muse exposure | Each simple baseline |
+| Frozen synthetic case | Muse-selected operation | Muse exposure | Writes-first exposure |
 | --- | --- | ---: | ---: |
 | Collection-visit booking | `book_collection_visit` | Yes | No |
 | Hive-load dispatch | `dispatch_hive_load` | Yes | Yes, using `request_block_survey` |
 
-Muse exposed a duplicate effect in **2/2** frozen synthetic challenges; writes-first, keyword, and single-seed random each exposed one in **1/2**. The synthetic severity-weighted scores were **8 vs. 2**. All strategies had one operation selection per case at the same lost-acknowledgment boundary. The baselines chose the same operation in each case, so these are **not three independent replications**. The two deliberately constructed cases cannot establish general model superiority or statistical significance. Their private simulator configurations are not public; the development fixture is publicly runnable.
+Muse chose a duplicate-exposing operation in **2/2** deliberately constructed synthetic challenges; a writes-first control exposed one in **1/2**. Keyword and one seeded-random strategy made the same operation selections as writes-first and thus were not independent competing results. All strategies had one operation selection per case at the same lost-acknowledgment boundary. The baselines chose the same operation in each case, so these are **not three independent replications**. The two deliberately constructed cases cannot establish general model superiority or statistical significance. Their private simulator configurations are not public; the development fixture is publicly runnable.
 
 ### B. Real local HTTP execution and unreliable readback
 
@@ -106,7 +106,7 @@ Optional Meta experiments require your own `MODEL_API_KEY` and explicit `--live`
 | Integrated case study | `stateproof/crashlab_case_study.py` | Source-checked recovery page and evidence export |
 | Tests | `tests/` | Unit, model-fake, and loopback integration tests |
 
-**Local test status:** 271 tests passed on macOS on October 30, 2026. Tests do not substitute for a new live model study or establish research novelty.
+**Local test history:** 271 tests previously passed with the earlier StateProof Lab files present. After excluding that earlier work, the CrashLab-only test count must be rechecked from the cleaned repository (125 passed in the November 2 independent review, before the new policy tests). No test count establishes model superiority or novelty.
 
 ## Safety, provenance, and limitations
 
@@ -116,6 +116,29 @@ Optional Meta experiments require your own `MODEL_API_KEY` and explicit `--live`
 - The replayed guard intervention is **post-hoc**. A separate live Muse+guard attempt encountered a Meta Model API 503; it produced no completed intervention receipt.
 - The guard can sacrifice task completion when the first request did not commit; it is not a universal idempotency or exactly-once protocol.
 - Commit-boundary failures, stale reads, agent chaos testing, and idempotency have substantial prior art (including September 2026 LIMBO and earlier chaos-engineering work). **We do not claim to have invented these mechanisms or proven a generally superior model.**
-- The initial StateProof baseline predates later CrashLab modules. The original Git history is preserved; only work genuinely completed during the hackathon window should be represented as hackathon work.
+- The older StateProof Lab reference implementation, including an October 26 PREBUILD-labelled file, is excluded from the submission tree. Git history remains visible. See [PROVENANCE.md](PROVENANCE.md); Git commit timestamps alone do not prove authoring dates.
 
 **Project contribution:** an inspectable developer prototype integrating model-generated fault selection, real local HTTP agent execution, independent state verification, and a deterministic policy intervention with explicit limitations.
+
+## Contract-to-policy experiment (optional new hackathon component)
+
+The separate [policy protocol](POLICY_PROTOCOL.md) defines an explicitly bounded test in which Muse Spark 1.3 *proposes* a retry policy from the **public descriptions** of seven synthetic write operations. A deterministic readback-first client then executes 14 loopback HTTP/SQLite fault checks. The trusted adapter must verify request-key deduplication before allowing repeat writes; the model cannot authorize them by assertion. The `always_retry` control is included because it may match model outcomes when the adapter already knows the server semantics.
+
+Offline controls (no Meta API key needed):
+
+```bash
+python -m stateproof.crashlab_policy --strategy conservative --contract contracts/policy_challenges.json
+python -m stateproof.crashlab_policy --strategy always_retry --contract contracts/policy_challenges.json
+python -m stateproof.crashlab_policy --strategy oracle_reference --contract contracts/policy_challenges.json
+```
+
+One optional, billed Meta API run **after the protocol is committed**:
+
+```bash
+python -m stateproof.crashlab_policy --strategy muse --live --accept-api-cost \
+  --contract contracts/policy_challenges.json \
+  --out evidence/policy_muse_original.json \
+  --public-out docs/policy-evidence.json --html docs/policy.html
+```
+
+Do not cite a Muse policy result or claim the new public page exists until the API run succeeds, the exported files are manually reviewed, and they are pushed. The new policy study uses a deterministic actor, **not a second live Muse actor continuation**.

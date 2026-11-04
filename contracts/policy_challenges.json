@@ -1,0 +1,25 @@
+{
+  "public": {
+    "scenario": "Synthetic fulfillment and billing — retry semantics challenge",
+    "task": "For every business write, propose whether an ambiguous result permits retrying the same request key or instead requires verification and escalation.",
+    "operations": [
+      {"id":"reserve_slot","method":"POST","description":"Creates one reservation. A stable reservation_key is an idempotency key: replaying the exact same key returns the original reservation without another hold."},
+      {"id":"charge_freight","method":"POST","description":"Bills the carrier's freight account. Every accepted call creates an additional charge. The tracking ID helps diagnostics, not deduplication. A lost response may hide a charge."},
+      {"id":"create_manifest","method":"POST","description":"Accepts an upload keyed by stable request_key. The provider guarantees replay deduplication for the same request_key, returning the previously accepted manifest."},
+      {"id":"issue_voucher","method":"POST","description":"Issues a new promotional voucher on every successful call. A request_id is retained for tracing, but repeating that ID does not prevent another voucher."},
+      {"id":"register_device","method":"PUT","description":"Registers a device with a stable idempotency token. The provider documents that repeating the same token returns the existing registration rather than creating a second record."},
+      {"id":"dispatch_driver","method":"POST","description":"Each invocation sends a new dispatch instruction and incurs another dispatch charge; a client-generated reference is included for auditing only. There is no replay deduplication."},
+      {"id":"notify_partner","method":"POST","description":"Submits an outbound message with a message reference. Delivery is deduplicated on this same message reference, and replay returns the prior delivery record without sending twice."},
+      {"id":"view_status","method":"GET","description":"Read-only status endpoint, returning the most recently visible operation state, which might be delayed."}
+    ]
+  },
+  "private_simulator": {
+    "reserve_slot":{"dedupe":"request_key","severity":2},
+    "charge_freight":{"dedupe":"none","severity":5},
+    "create_manifest":{"dedupe":"request_key","severity":2},
+    "issue_voucher":{"dedupe":"none","severity":3},
+    "register_device":{"dedupe":"request_key","severity":2},
+    "dispatch_driver":{"dedupe":"none","severity":4},
+    "notify_partner":{"dedupe":"request_key","severity":2}
+  }
+}
