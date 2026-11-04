@@ -42,3 +42,7 @@ The booking workbench executes synthetic reservation writes in the visitor’s b
 The Redis Streams compatibility check was added on November 4. The unmodified Redis 8.6.0 tarball was verified against the upstream `redis/redis-hashes` SHA-256 (`d7e5f65f0bb0b4753d0cf98a60f5409a7c9b430ff8ac3397d336260cf64e5a6e`). Only our client, the measured rows and the reproduction command are included. Redis documents the command semantics. No Muse call is attributed to the Redis experiment.
 
 The contrast page table labels and paired-score display were edited after scoring. The two model receipts, recorded summary, frozen fixtures and pre-call addendum are unchanged.
+
+## November 4 intent-identity study
+
+The new finite test family, proof, exhaustive SQLite study, Redis and NATS client mappings, independent checker and live browser grader were developed after the previously published hackathon results. ChatGPT assisted with design, implementation and verification. The twelve-item DeBERTa and nearest-description comparisons are retrospective; the original model receipts are preserved byte for byte. The protocol was locally committed before measurement. The external write path, if invoked, is one later frozen Muse test-design call. Its status and exact outcome appear in `docs/intent-muse.json`. See [methods and prior work](INTENT_STUDY.md) for boundaries and upstream code and model provenance.

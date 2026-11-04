@@ -1,0 +1,452 @@
+{
+  "schema": "stateproof-retrospective-semantic-controls-v1",
+  "original_summary_sha256": "93fcc7935c2a67e9229922c927abd8bbb7670c590273569c9ebbccf7b560a44e",
+  "protocol_sha256": "8d15cc04d9f642189c18120df60155b2c9148aef89f658499538725778e388fa",
+  "input_sha256": {
+    "policy_challenges.json": "46fc62bb71ac8747d54419791af191e783535ab44ad85c0e4bc965b30c54ea6f",
+    "contrastive_semantics_a.json": "17c18514522755ca428942c94ebcdd66cbaa9fcbb1d31a47f5b0dadef0eda2a2",
+    "contrastive_semantics_b.json": "dc1c67cc29380565ab7361a789a2341de6da48cab3f85595e11c0d75f7e57f96"
+  },
+  "nli": {
+    "checkpoint": "cross-encoder/nli-deberta-v3-small",
+    "revision": "fa2804872c3b4bd748f38c0185cc85775361e735",
+    "weights_and_tokenizer_sha256": {
+      "model.safetensors": "ebc79588dd73ccfb6a3f6078519cfbf512c5305384c5ea1845bc71cd32216e86",
+      "config.json": "885d0dceae8fa5c136da9209121ec9eb11160488e840de3bc1f29353674e5712",
+      "tokenizer.json": "5124ef2ead1a10a717703bc436de7f353da76d6340e4587719b42b1693707964",
+      "tokenizer_config.json": "f3eecd07c370ef0bf7dd3780d3cd68cf9c8b00c267e21a208ddcd8f82bfec1a6",
+      "special_tokens_map.json": "ed7c099c988dbb414b18a6980d20cb57b91b7cd119f6f6941eb364b0e892e712",
+      "added_tokens.json": "a4b6bfe668f2b3cf6f0cd535e98a0663d2d0d4a4a15f13075ad3597d33985a23",
+      "spm.model": "c679fbf93643d19aab7ee10c0b99e460bdbc02fedf34b92b05af343b4af586fd"
+    },
+    "hypotheses": [
+      "Repeating this write with the same identifier is guaranteed not to create or charge for the business effect a second time.",
+      "Repeating this write with the same identifier may create or charge for the business effect a second time."
+    ],
+    "labels": {
+      "contradiction": 0,
+      "entailment": 1,
+      "neutral": 2
+    },
+    "transformers": "4.55.4",
+    "torch": "2.8.0+cpu"
+  },
+  "grades": {
+    "recorded_muse": {
+      "matched": 12,
+      "operations": 12,
+      "pairs_both": 6,
+      "pairs": 6,
+      "correct_pairs": [
+        "slot_reserve",
+        "freight_capture",
+        "driver_assign",
+        "device_enroll",
+        "webhook_deliver",
+        "voucher_issue"
+      ],
+      "rows": {
+        "op_m2r9": {
+          "retry": false,
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_k8q4": {
+          "retry": true,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_t3a7": {
+          "retry": true,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_v6j1": {
+          "retry": false,
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_d9w2": {
+          "retry": false,
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_p4n8": {
+          "retry": true,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_g5c3": {
+          "retry": true,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_s7x1": {
+          "retry": false,
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_h8f4": {
+          "retry": false,
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_r2b6": {
+          "retry": true,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_y1m5": {
+          "retry": true,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_n4k7": {
+          "retry": false,
+          "reference_retry": false,
+          "correct": true
+        }
+      }
+    },
+    "nearest_seven": {
+      "matched": 7,
+      "operations": 12,
+      "pairs_both": 1,
+      "pairs": 6,
+      "correct_pairs": [
+        "driver_assign"
+      ],
+      "rows": {
+        "op_m2r9": {
+          "retry": true,
+          "neighbor_id": "reserve_slot",
+          "cosine": 0.37196461995453467,
+          "reference_retry": false,
+          "correct": false
+        },
+        "op_k8q4": {
+          "retry": true,
+          "neighbor_id": "reserve_slot",
+          "cosine": 0.39492727110467957,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_t3a7": {
+          "retry": true,
+          "neighbor_id": "notify_partner",
+          "cosine": 0.36966103637085934,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_v6j1": {
+          "retry": true,
+          "neighbor_id": "notify_partner",
+          "cosine": 0.3802127765105043,
+          "reference_retry": false,
+          "correct": false
+        },
+        "op_d9w2": {
+          "retry": false,
+          "neighbor_id": "dispatch_driver",
+          "cosine": 0.35241802476642065,
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_p4n8": {
+          "retry": true,
+          "neighbor_id": "register_device",
+          "cosine": 0.43030256335986905,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_g5c3": {
+          "retry": true,
+          "neighbor_id": "register_device",
+          "cosine": 0.40239504076433796,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_s7x1": {
+          "retry": true,
+          "neighbor_id": "register_device",
+          "cosine": 0.3561439086673321,
+          "reference_retry": false,
+          "correct": false
+        },
+        "op_h8f4": {
+          "retry": true,
+          "neighbor_id": "notify_partner",
+          "cosine": 0.775486625086179,
+          "reference_retry": false,
+          "correct": false
+        },
+        "op_r2b6": {
+          "retry": true,
+          "neighbor_id": "notify_partner",
+          "cosine": 0.8023699798122678,
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_y1m5": {
+          "retry": false,
+          "neighbor_id": "issue_voucher",
+          "cosine": 0.5439517983318143,
+          "reference_retry": true,
+          "correct": false
+        },
+        "op_n4k7": {
+          "retry": false,
+          "neighbor_id": "issue_voucher",
+          "cosine": 0.5554458145623622,
+          "reference_retry": false,
+          "correct": true
+        }
+      }
+    },
+    "frozen_nli": {
+      "matched": 11,
+      "operations": 12,
+      "pairs_both": 5,
+      "pairs": 6,
+      "correct_pairs": [
+        "slot_reserve",
+        "freight_capture",
+        "driver_assign",
+        "device_enroll",
+        "voucher_issue"
+      ],
+      "rows": {
+        "op_m2r9": {
+          "retry": false,
+          "entailment_retry": -2.4934706687927246,
+          "entailment_verify": -1.8179903030395508,
+          "logits": [
+            [
+              0.4394737780094147,
+              -2.4934706687927246,
+              2.218317985534668
+            ],
+            [
+              -2.5650949478149414,
+              -1.8179903030395508,
+              4.924599647521973
+            ]
+          ],
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_k8q4": {
+          "retry": true,
+          "entailment_retry": -1.029982566833496,
+          "entailment_verify": -1.9073092937469482,
+          "logits": [
+            [
+              -2.107133388519287,
+              -1.029982566833496,
+              3.667965888977051
+            ],
+            [
+              -1.570004940032959,
+              -1.9073092937469482,
+              4.077287673950195
+            ]
+          ],
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_t3a7": {
+          "retry": true,
+          "entailment_retry": 2.1659135818481445,
+          "entailment_verify": -1.7628319263458252,
+          "logits": [
+            [
+              -4.0263190269470215,
+              2.1659135818481445,
+              2.064746141433716
+            ],
+            [
+              -1.8521965742111206,
+              -1.7628319263458252,
+              4.196056842803955
+            ]
+          ],
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_v6j1": {
+          "retry": false,
+          "entailment_retry": -3.206646203994751,
+          "entailment_verify": 4.306482315063477,
+          "logits": [
+            [
+              4.859699726104736,
+              -3.206646203994751,
+              -1.6398899555206299
+            ],
+            [
+              -4.6907525062561035,
+              4.306482315063477,
+              0.19679878652095795
+            ]
+          ],
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_d9w2": {
+          "retry": false,
+          "entailment_retry": -3.3324482440948486,
+          "entailment_verify": 4.218491077423096,
+          "logits": [
+            [
+              4.494764804840088,
+              -3.3324482440948486,
+              -1.141922950744629
+            ],
+            [
+              -4.620700836181641,
+              4.218491077423096,
+              0.20247873663902283
+            ]
+          ],
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_p4n8": {
+          "retry": true,
+          "entailment_retry": 1.7217925786972046,
+          "entailment_verify": 0.8713356852531433,
+          "logits": [
+            [
+              -2.350538492202759,
+              1.7217925786972046,
+              0.698279857635498
+            ],
+            [
+              -2.106964588165283,
+              0.8713356852531433,
+              1.3054590225219727
+            ]
+          ],
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_g5c3": {
+          "retry": true,
+          "entailment_retry": 0.37774306535720825,
+          "entailment_verify": -2.260983943939209,
+          "logits": [
+            [
+              -3.547666549682617,
+              0.37774306535720825,
+              3.2819533348083496
+            ],
+            [
+              -1.166988492012024,
+              -2.260983943939209,
+              4.062001705169678
+            ]
+          ],
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_s7x1": {
+          "retry": false,
+          "entailment_retry": -1.9530181884765625,
+          "entailment_verify": -0.879231870174408,
+          "logits": [
+            [
+              0.6262025237083435,
+              -1.9530181884765625,
+              1.2186193466186523
+            ],
+            [
+              -3.2234272956848145,
+              -0.879231870174408,
+              4.432816982269287
+            ]
+          ],
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_h8f4": {
+          "retry": false,
+          "entailment_retry": -2.8905935287475586,
+          "entailment_verify": 2.8861935138702393,
+          "logits": [
+            [
+              3.390456199645996,
+              -2.8905935287475586,
+              -0.7044551968574524
+            ],
+            [
+              -3.8544106483459473,
+              2.8861935138702393,
+              0.834073007106781
+            ]
+          ],
+          "reference_retry": false,
+          "correct": true
+        },
+        "op_r2b6": {
+          "retry": false,
+          "entailment_retry": 0.974517285823822,
+          "entailment_verify": 1.684321641921997,
+          "logits": [
+            [
+              -2.7994892597198486,
+              0.974517285823822,
+              1.9844651222229004
+            ],
+            [
+              -2.556349515914917,
+              1.684321641921997,
+              0.9104882478713989
+            ]
+          ],
+          "reference_retry": true,
+          "correct": false
+        },
+        "op_y1m5": {
+          "retry": true,
+          "entailment_retry": -0.3028544783592224,
+          "entailment_verify": -2.0544211864471436,
+          "logits": [
+            [
+              -2.371708393096924,
+              -0.3028544783592224,
+              3.0958874225616455
+            ],
+            [
+              -1.213038682937622,
+              -2.0544211864471436,
+              3.826322078704834
+            ]
+          ],
+          "reference_retry": true,
+          "correct": true
+        },
+        "op_n4k7": {
+          "retry": false,
+          "entailment_retry": -3.233761787414551,
+          "entailment_verify": -1.226323127746582,
+          "logits": [
+            [
+              3.6885790824890137,
+              -3.233761787414551,
+              -0.5584917068481445
+            ],
+            [
+              -2.406313896179199,
+              -1.226323127746582,
+              4.0240325927734375
+            ]
+          ],
+          "reference_retry": false,
+          "correct": true
+        }
+      }
+    }
+  },
+  "scope": "Retrospective on 12 author-written items. NLI and nearest neighbor see one item at a time. Muse saw six per call, produced evidence quotes, and had the paired clauses in context.",
+  "sha256": "2ff9fda20d900b57034cfe68c9180c8c46f9db6f5e7881279daf70a8df90c723"
+}

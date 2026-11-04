@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101923" />
+    <title>StateProof | When a row count misses a lost booking</title>
+    <link rel="stylesheet" href="retry-lab.css" />
+    <style>
+      .scols {
+        display: grid;
+        grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.5fr);
+        gap: 16px;
+      }
+      .scols > .panel,
+      .studyblock {
+        padding: 22px;
+      }
+      .studyblock {
+        margin: 16px 0;
+      }
+      .studyblock h2,
+      .scols h2 {
+        margin: 0 0 9px;
+        letter-spacing: -0.04em;
+        font-size: 24px;
+      }
+      .studyblock p,
+      .scols p {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .studyread {
+        width: 100%;
+        border-collapse: collapse;
+        font: 13px/1.5 system-ui;
+        text-align: left;
+      }
+      .studyread th,
+      .studyread td {
+        border-bottom: 1px solid var(--line);
+        padding: 8px 10px;
+      }
+      .studyread th {
+        color: var(--mint);
+      }
+      .twrap {
+        overflow: auto;
+      }
+      .splitrows {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .splitrows > div {
+        background: var(--inset);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 13px;
+        min-width: 0;
+      }
+      .splitrows h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .splitrows ol {
+        padding-left: 21px;
+        font:
+          13px/1.8 ui-monospace,
+          monospace;
+        margin-bottom: 0;
+      }
+      .splitrows li[data-difference] {
+        color: var(--red);
+      }
+      .splitrows li[data-difference]::after {
+        content: attr(data-difference);
+        font-size: 10px;
+        margin-left: 7px;
+      }
+      .outcomes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 10px 0;
+      }
+      .outcomes b {
+        padding: 6px 10px;
+        border-radius: 6px;
+        font:
+          700 13px ui-monospace,
+          monospace;
+      }
+      .pass {
+        background: #183c35;
+        color: var(--mint);
+      }
+      .fail {
+        background: #48302d;
+        color: var(--red);
+      }
+      #trace {
+        font:
+          700 19px ui-monospace,
+          monospace;
+        letter-spacing: 0.2em;
+        width: 100%;
+        border: 1px solid #536775;
+        background: var(--inset);
+        color: var(--text);
+        border-radius: 7px;
+        padding: 8px;
+      }
+      .laneinfo {
+        font:
+          13px/1.5 ui-monospace,
+          monospace;
+      }
+      .studyblock a {
+        font-size: 13px;
+      }
+      .studyblock .eyebrow {
+        color: var(--mint);
+        font-size: 11px;
+      }
+      .slink {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      @media (max-width: 780px) {
+        .scols {
+          grid-template-columns: 1fr;
+        }
+        .studyblock,
+        .scols > .panel {
+          padding: 15px;
+        }
+      }
+      @media (max-width: 480px) {
+        .splitrows {
+          grid-template-columns: 1fr;
+        }
+        .studyread th,
+        .studyread td {
+          padding: 6px;
+        }
+      }
+    </style>
+    <script defer src="vendor/sql-wasm-inline.js"></script>
+    <script defer src="intent-study.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="wrap nav">
+        <a class="brand" href="retry-lab.html"><span class="glyph">S</span>StateProof <b>CrashLab</b></a>
+        <nav>
+          <a href="contrast.html">Muse comparison</a
+          ><a href="https://github.com/praneethhere/stateproof-meta-hackathon">Source ↗</a>
+        </nav>
+      </div>
+    </header>
+    <main class="wrap">
+      <section class="intro">
+        <p class="eyebrow"><span class="live-dot"></span> Research experiment / Intent identity</p>
+        <h1>Three rows. <em>One booking missing.</em></h1>
+        <p>
+          A retry can duplicate North’s booking while a faulty key silently merges South’s. The total still
+          looks right. Run four writes and inspect which customer actually got booked.
+        </p>
+      </section>
+      <div class="ribbon">
+        <span>Live browser SQLite</span><span>32 index designs</span
+        ><span>Third-party engines tested separately</span>
+      </div>
+      <section class="scols">
+        <form id="study-form" class="panel">
+          <h2>Choose a test</h2>
+          <p>
+            A and B are different bookings for North. C and D are bookings for South. A and C share local ID 1
+            and request key k7. B and D use local ID 2 and k9. All payloads here are identical.
+          </p>
+          <label for="trace">Sequence of 1–4 writes</label
+          ><input id="trace" value="AABC" maxlength="4" spellcheck="false" autocomplete="off" /><label
+            for="mode"
+            >How should the test decide?</label
+          ><select id="mode">
+            <option value="count">Total rows</option>
+            <option value="identity_set">Which bookings appeared</option>
+            <option value="identity_multiset">Which bookings appeared and how many times</option></select
+          ><label for="example">Adapter to inspect</label
+          ><select id="example">
+            <option value="request_key+attempt_no">Global key + attempt number</option>
+            <option value="request_key">Global request key</option>
+            <option value="tenant+request_key">Tenant-scoped request key</option>
+            <option value="no_unique_index">No unique key</option>
+          </select>
+          <div class="actions">
+            <button id="execute" type="submit" class="primary" disabled>Run against 32 adapters →</button>
+          </div>
+          <p id="engine-note" class="hint" role="status">Starting SQLite…</p>
+        </form>
+        <section class="panel" aria-live="polite">
+          <h2>Inspect the business outcome</h2>
+          <div class="outcomes"><b id="row-verdict">Ready</b><b id="identity-verdict">Ready</b></div>
+          <p class="hint">Rows show tenant / local booking ID / payload.</p>
+          <div class="splitrows">
+            <div>
+              <h3>Expected bookings</h3>
+              <ol id="expected-list"></ol>
+            </div>
+            <div>
+              <h3>Observed SQLite rows</h3>
+              <ol id="actual-list"></ol>
+            </div>
+          </div>
+          <p id="explanation">Both lists show tenant / local booking ID / payload.</p>
+          <p class="laneinfo" id="grade"></p>
+          <details>
+            <summary>Show incorrectly approved indexes</summary>
+            <p id="survivors"></p>
+          </details>
+        </section>
+      </section>
+      <section class="panel studyblock">
+        <p class="eyebrow">Equal write budgets</p>
+        <h2>How many unsafe adapters pass?</h2>
+        <div class="twrap">
+          <table class="studyread">
+            <thead>
+              <tr>
+                <th>Four writes</th>
+                <th>Final check</th>
+                <th>Unsafe approvals / 26</th>
+                <th>Correct classifications / 32</th>
+              </tr>
+            </thead>
+            <tbody id="ablation-rows"></tbody>
+          </table>
+        </div>
+        <p>
+          Six index choices satisfy the scoped contract and 26 violate it. Every test above accepted all six
+          valid designs. A separate implementation reconstructed every stored business tuple across 174,080
+          SQLite runs. These are deterministic cases from a finite model.
+        </p>
+        <p id="search-note"></p>
+        <p>
+          <strong>Scope check.</strong> The 32 index choices represent 13 distinct observed behaviors.
+          Counting each invalid behavior once, the mixed row-count test wrongly approves 4/12 and the multiset
+          test approves 0/12. A partial SQL index outside the family passes AABC on payload 0 but duplicates a
+          booking on payload 1. <a href="intent-boundaries.json">Inspect the disconfirming case ↗</a>
+        </p>
+        <div class="slink">
+          <a href="intent-study-evidence.json">All adapter grades</a
+          ><a href="intent-observations.jsonl.gz">Complete compressed observations</a
+          ><a href="https://github.com/praneethhere/stateproof-meta-hackathon/blob/main/INTENT_STUDY.md"
+            >Proof, scope and reproduction ↗</a
+          >
+        </div>
+      </section>
+      <section class="panel studyblock">
+        <p class="eyebrow">Independent infrastructure checks</p>
+        <h2>Does the wrong customer disappear on real queues?</h2>
+        <div class="twrap">
+          <table class="studyread">
+            <thead>
+              <tr>
+                <th>Unmodified engine</th>
+                <th>Client ID mapping</th>
+                <th>Stored / expected</th>
+                <th>Count check</th>
+                <th>Business identities</th>
+              </tr>
+            </thead>
+            <tbody id="broker-rows"></tbody>
+          </table>
+        </div>
+        <p>
+          The test client deliberately changed ID scope. A second connection observed the first append before
+          the producer discarded or ignored its application acknowledgement. Rows came from independent stream
+          reads on local servers.
+          <a href="intent-broker-evidence.json">Inspect the commands, replies and entries ↗</a>
+        </p>
+      </section>
+      <section class="panel studyblock" id="model">
+        <p class="eyebrow">Model evidence</p>
+        <h2>What does a stronger language baseline do?</h2>
+        <div class="twrap">
+          <table class="studyread">
+            <thead>
+              <tr>
+                <th>Policy source</th>
+                <th>Right decisions / 12</th>
+                <th>Complete pairs / 6</th>
+              </tr>
+            </thead>
+            <tbody id="semantic-rows"></tbody>
+          </table>
+        </div>
+        <p>
+          The pretrained NLI model and text-retrieval control were added retrospectively. They saw one
+          description at a time. Muse saw six per call, including paired descriptions, and supplied evidence
+          quotes. One item separates Muse and DeBERTa here.
+          <a href="intent-semantic-controls.json">All predictions, checkpoint and logits ↗</a>
+        </p>
+        <h2>Can Muse design the four-write test?</h2>
+        <p id="model-plan">Loading the first-attempt record…</p>
+        <button type="button" id="try-muse" class="secondary" hidden>Run Muse’s proposed test</button>
+        <p>
+          Human reference: AABC with an identity-and-multiplicity check classifies 32/32. With the same fixed
+          payload and that check, 88 of the 256 possible four-write schedules also classify all 32.
+          <a href="intent-muse.json">First-attempt record ↗</a>
+        </p>
+      </section>
+    </main>
+    <footer class="wrap">
+      <span>Praneeth · StateProof CrashLab · Meta Global AI Developer Hackathon 2026</span
+      ><a href="retry-lab.html">Original booking workbench ↗</a>
+    </footer>
+  </body>
+</html>

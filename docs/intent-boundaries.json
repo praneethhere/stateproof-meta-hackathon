@@ -1,0 +1,185 @@
+{
+  "schema": "stateproof-secondary-equivalence-and-scope-v1",
+  "timing": "Supplementary, specified after measuring the primary study. Does not revise the frozen task or any prior result.",
+  "equivalence": {
+    "equivalent_on": "observed business-row multisets over the complete finite corpus",
+    "groups": 13,
+    "valid_groups": 1,
+    "members_by_outcome_fingerprint": {
+      "f8b50e8aa1e7ca1439cc2435ec6a7210e64b32c868d25e4b7a7616547e82b5dd": [
+        "no_unique_index",
+        "tenant+local_intent+attempt_no",
+        "tenant+request_key+attempt_no",
+        "tenant+local_intent+request_key+attempt_no",
+        "tenant+local_intent+payload+attempt_no",
+        "tenant+request_key+payload+attempt_no",
+        "tenant+local_intent+request_key+payload+attempt_no"
+      ],
+      "910eaed79910cbdeac0edffdcec139e69808efea1f7211d01cd1be58e66cfc82": [
+        "tenant"
+      ],
+      "ca76ab479cfcb64877484c9f1b0a2ad13ba41265339dcb761102e436022c6973": [
+        "local_intent",
+        "request_key",
+        "local_intent+request_key"
+      ],
+      "02e99342e051a4481cb58d9122116be96d8343e0597080025ba2ea28d26bac22": [
+        "payload"
+      ],
+      "f4a3b9325bf0340516798af989a76e9433dae72685641bd95b53a2862099b18c": [
+        "attempt_no"
+      ],
+      "787e246f2d4a0e2d20c998e2ae49e8508c99c73d74048a970fe27de21fb4f9ec": [
+        "tenant+local_intent",
+        "tenant+request_key",
+        "tenant+local_intent+request_key",
+        "tenant+local_intent+payload",
+        "tenant+request_key+payload",
+        "tenant+local_intent+request_key+payload"
+      ],
+      "8b09703cb9bfd70fd44363bf3e074c65f8177db00f62da38c529dd9611d608cb": [
+        "tenant+payload"
+      ],
+      "2b169f9ad8fc82874b6e06c78ff72f3e79323fca3ff6cebcbc04db0348e6023f": [
+        "tenant+attempt_no"
+      ],
+      "2f6e15c4e6968d5307ac40853a1660b843081c643d959c5301d973b4941550b0": [
+        "local_intent+payload",
+        "request_key+payload",
+        "local_intent+request_key+payload"
+      ],
+      "44cb407558fb03bbb602cbf63556cc915a9b7e3db324e6a10a1138fbc10f43f3": [
+        "local_intent+attempt_no",
+        "request_key+attempt_no",
+        "local_intent+request_key+attempt_no"
+      ],
+      "760e8ccd5fb40a79ff24e2ead8d99facbfa5d72a9f5d8b180d278ef5b00a7273": [
+        "payload+attempt_no"
+      ],
+      "c8cdf62ad014f3aa444843e163e5850941d14f2b9a2f45640456276c81bd4ec2": [
+        "tenant+payload+attempt_no"
+      ],
+      "27d99425eb7a72d35a9f9e5dd8796406f6719b3d48c5d031a2be4f2cd3fc155e": [
+        "local_intent+payload+attempt_no",
+        "request_key+payload+attempt_no",
+        "local_intent+request_key+payload+attempt_no"
+      ]
+    },
+    "false_approvals_by_group": {
+      "repeat_only": 5,
+      "four_distinct": 1,
+      "mixed_count": 4,
+      "mixed_set": 1,
+      "mixed_multiset": 0
+    }
+  },
+  "outside_family": {
+    "index_sql": "CREATE UNIQUE INDEX chosen ON bookings(tenant, request_key) WHERE payload = '0'",
+    "primary_witness": {
+      "writes": [
+        [
+          "north",
+          "1",
+          "k7",
+          "0",
+          1
+        ],
+        [
+          "north",
+          "1",
+          "k7",
+          "0",
+          2
+        ],
+        [
+          "north",
+          "2",
+          "k9",
+          "0",
+          1
+        ],
+        [
+          "south",
+          "1",
+          "k7",
+          "0",
+          1
+        ]
+      ],
+      "expected": [
+        [
+          "north",
+          "1",
+          "0"
+        ],
+        [
+          "north",
+          "2",
+          "0"
+        ],
+        [
+          "south",
+          "1",
+          "0"
+        ]
+      ],
+      "actual": [
+        [
+          "north",
+          "1",
+          "0"
+        ],
+        [
+          "north",
+          "2",
+          "0"
+        ],
+        [
+          "south",
+          "1",
+          "0"
+        ]
+      ],
+      "pass": true
+    },
+    "different_payload_retry": {
+      "writes": [
+        [
+          "north",
+          "1",
+          "k7",
+          "1",
+          1
+        ],
+        [
+          "north",
+          "1",
+          "k7",
+          "1",
+          2
+        ]
+      ],
+      "expected": [
+        [
+          "north",
+          "1",
+          "1"
+        ]
+      ],
+      "actual": [
+        [
+          "north",
+          "1",
+          "1"
+        ],
+        [
+          "north",
+          "1",
+          "1"
+        ]
+      ],
+      "pass": false
+    }
+  },
+  "sha256": "7c8ee3f82c6378c24b9d7179b5c2ba42f3089f5c47a616876e911d850aa0f4cf"
+}

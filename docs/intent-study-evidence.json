@@ -1,0 +1,3636 @@
+{
+  "schema": "stateproof-intent-identity-v1",
+  "sqlite_version": "3.46.1",
+  "protocol_sha256": "8d15cc04d9f642189c18120df60155b2c9148aef89f658499538725778e388fa",
+  "logical_intents": {
+    "A": [
+      "north",
+      "1",
+      "k7"
+    ],
+    "B": [
+      "north",
+      "2",
+      "k9"
+    ],
+    "C": [
+      "south",
+      "1",
+      "k7"
+    ],
+    "D": [
+      "south",
+      "2",
+      "k9"
+    ]
+  },
+  "field_order": [
+    "tenant",
+    "local_intent",
+    "request_key",
+    "payload",
+    "attempt_no"
+  ],
+  "adapter_order": [
+    "no_unique_index",
+    "tenant",
+    "local_intent",
+    "request_key",
+    "payload",
+    "attempt_no",
+    "tenant+local_intent",
+    "tenant+request_key",
+    "tenant+payload",
+    "tenant+attempt_no",
+    "local_intent+request_key",
+    "local_intent+payload",
+    "local_intent+attempt_no",
+    "request_key+payload",
+    "request_key+attempt_no",
+    "payload+attempt_no",
+    "tenant+local_intent+request_key",
+    "tenant+local_intent+payload",
+    "tenant+local_intent+attempt_no",
+    "tenant+request_key+payload",
+    "tenant+request_key+attempt_no",
+    "tenant+payload+attempt_no",
+    "local_intent+request_key+payload",
+    "local_intent+request_key+attempt_no",
+    "local_intent+payload+attempt_no",
+    "request_key+payload+attempt_no",
+    "tenant+local_intent+request_key+payload",
+    "tenant+local_intent+request_key+attempt_no",
+    "tenant+local_intent+payload+attempt_no",
+    "tenant+request_key+payload+attempt_no",
+    "local_intent+request_key+payload+attempt_no",
+    "tenant+local_intent+request_key+payload+attempt_no"
+  ],
+  "valid_adapters": 6,
+  "adapters": 32,
+  "reference_agrees_with_exhaustive_state": true,
+  "counts_of_histories_with_wrong_state": {
+    "no_unique_index": 4416,
+    "tenant": 3776,
+    "local_intent": 3776,
+    "request_key": 3776,
+    "payload": 4128,
+    "attempt_no": 4992,
+    "tenant+local_intent": 0,
+    "tenant+request_key": 0,
+    "tenant+payload": 1984,
+    "tenant+attempt_no": 4608,
+    "local_intent+request_key": 3776,
+    "local_intent+payload": 1984,
+    "local_intent+attempt_no": 4608,
+    "request_key+payload": 1984,
+    "request_key+attempt_no": 4608,
+    "payload+attempt_no": 4704,
+    "tenant+local_intent+request_key": 0,
+    "tenant+local_intent+payload": 0,
+    "tenant+local_intent+attempt_no": 4416,
+    "tenant+request_key+payload": 0,
+    "tenant+request_key+attempt_no": 4416,
+    "tenant+payload+attempt_no": 4608,
+    "local_intent+request_key+payload": 1984,
+    "local_intent+request_key+attempt_no": 4608,
+    "local_intent+payload+attempt_no": 4608,
+    "request_key+payload+attempt_no": 4608,
+    "tenant+local_intent+request_key+payload": 0,
+    "tenant+local_intent+request_key+attempt_no": 4416,
+    "tenant+local_intent+payload+attempt_no": 4416,
+    "tenant+request_key+payload+attempt_no": 4416,
+    "local_intent+request_key+payload+attempt_no": 4608,
+    "tenant+local_intent+request_key+payload+attempt_no": 4416
+  },
+  "campaigns": {
+    "repeat_only": {
+      "schedule": "AAAA",
+      "readout": "count",
+      "writes": 4,
+      "expected": [
+        [
+          "north",
+          "1",
+          "0"
+        ]
+      ],
+      "false_approvals": [
+        "tenant",
+        "local_intent",
+        "request_key",
+        "payload",
+        "tenant+payload",
+        "local_intent+request_key",
+        "local_intent+payload",
+        "request_key+payload",
+        "local_intent+request_key+payload"
+      ],
+      "false_refusals": [],
+      "correctly_classified": 23,
+      "adapters": [
+        {
+          "index": "no_unique_index",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        }
+      ]
+    },
+    "four_distinct": {
+      "schedule": "ABCD",
+      "readout": "identity_multiset",
+      "writes": 4,
+      "expected": [
+        [
+          "north",
+          "1",
+          "0"
+        ],
+        [
+          "north",
+          "2",
+          "0"
+        ],
+        [
+          "south",
+          "1",
+          "0"
+        ],
+        [
+          "south",
+          "2",
+          "0"
+        ]
+      ],
+      "false_approvals": [
+        "no_unique_index",
+        "tenant+local_intent+attempt_no",
+        "tenant+request_key+attempt_no",
+        "tenant+local_intent+request_key+attempt_no",
+        "tenant+local_intent+payload+attempt_no",
+        "tenant+request_key+payload+attempt_no",
+        "tenant+local_intent+request_key+payload+attempt_no"
+      ],
+      "false_refusals": [],
+      "correctly_classified": 25,
+      "adapters": [
+        {
+          "index": "no_unique_index",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "2",
+              "0"
+            ]
+          ]
+        }
+      ]
+    },
+    "mixed_count": {
+      "schedule": "AABC",
+      "readout": "count",
+      "writes": 4,
+      "expected": [
+        [
+          "north",
+          "1",
+          "0"
+        ],
+        [
+          "north",
+          "2",
+          "0"
+        ],
+        [
+          "south",
+          "1",
+          "0"
+        ]
+      ],
+      "false_approvals": [
+        "tenant+attempt_no",
+        "local_intent+attempt_no",
+        "request_key+attempt_no",
+        "tenant+payload+attempt_no",
+        "local_intent+request_key+attempt_no",
+        "local_intent+payload+attempt_no",
+        "request_key+payload+attempt_no",
+        "local_intent+request_key+payload+attempt_no"
+      ],
+      "false_refusals": [],
+      "correctly_classified": 24,
+      "adapters": [
+        {
+          "index": "no_unique_index",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        }
+      ]
+    },
+    "mixed_set": {
+      "schedule": "AABC",
+      "readout": "identity_set",
+      "writes": 4,
+      "expected": [
+        [
+          "north",
+          "1",
+          "0"
+        ],
+        [
+          "north",
+          "2",
+          "0"
+        ],
+        [
+          "south",
+          "1",
+          "0"
+        ]
+      ],
+      "false_approvals": [
+        "no_unique_index",
+        "tenant+local_intent+attempt_no",
+        "tenant+request_key+attempt_no",
+        "tenant+local_intent+request_key+attempt_no",
+        "tenant+local_intent+payload+attempt_no",
+        "tenant+request_key+payload+attempt_no",
+        "tenant+local_intent+request_key+payload+attempt_no"
+      ],
+      "false_refusals": [],
+      "correctly_classified": 25,
+      "adapters": [
+        {
+          "index": "no_unique_index",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        }
+      ]
+    },
+    "mixed_multiset": {
+      "schedule": "AABC",
+      "readout": "identity_multiset",
+      "writes": 4,
+      "expected": [
+        [
+          "north",
+          "1",
+          "0"
+        ],
+        [
+          "north",
+          "2",
+          "0"
+        ],
+        [
+          "south",
+          "1",
+          "0"
+        ]
+      ],
+      "false_approvals": [],
+      "false_refusals": [],
+      "correctly_classified": 32,
+      "adapters": [
+        {
+          "index": "no_unique_index",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload",
+          "reference_valid": true,
+          "approved": true,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ]
+        },
+        {
+          "index": "tenant+local_intent+request_key+payload+attempt_no",
+          "reference_valid": false,
+          "approved": false,
+          "actual": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "search": [
+    {
+      "writes": 1,
+      "ordered_schedules": 4,
+      "schedule_payload_combinations": 64,
+      "combinations_classifying_all_32": 0
+    },
+    {
+      "writes": 2,
+      "ordered_schedules": 16,
+      "schedule_payload_combinations": 256,
+      "combinations_classifying_all_32": 0
+    },
+    {
+      "writes": 3,
+      "ordered_schedules": 64,
+      "schedule_payload_combinations": 1024,
+      "combinations_classifying_all_32": 0
+    },
+    {
+      "writes": 4,
+      "ordered_schedules": 256,
+      "schedule_payload_combinations": 4096,
+      "combinations_classifying_all_32": 352
+    }
+  ],
+  "trial_count": 174080,
+  "ordered_outcomes_sha256": "79954dd3dcb1f95f415c9d134b29e6cf1dec97b9cedbdb9532f734eb227d8258",
+  "sha256": "d0e9157d2ebb0ed231f64eb192809a63461158ad1e496cf5f705614dd5d8b081"
+}

@@ -1,0 +1,696 @@
+{
+  "schema": "stateproof-cross-broker-intent-witness-v1",
+  "schedule": "AABC",
+  "engines": [
+    {
+      "engine": "Redis Streams",
+      "server_version": "8.6.0",
+      "oracle": "XRANGE on a new connection",
+      "cases": [
+        {
+          "mapping": "tenant_scoped",
+          "writes": [
+            {
+              "producer": "north",
+              "idempotent_id": "k7",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "discarded_after_independent_observation"
+            },
+            {
+              "producer": "north",
+              "idempotent_id": "k7",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "2"
+              },
+              "ack": "1793820677065-0"
+            },
+            {
+              "producer": "north",
+              "idempotent_id": "k9",
+              "body": {
+                "tenant": "north",
+                "local_intent": "2",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "1793820677066-0"
+            },
+            {
+              "producer": "south",
+              "idempotent_id": "k7",
+              "body": {
+                "tenant": "south",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "1793820677066-1"
+            }
+          ],
+          "entries": [
+            {
+              "server_seq": "1793820677065-0",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              }
+            },
+            {
+              "server_seq": "1793820677066-0",
+              "body": {
+                "tenant": "north",
+                "local_intent": "2",
+                "payload": "0",
+                "attempt_no": "1"
+              }
+            },
+            {
+              "server_seq": "1793820677066-1",
+              "body": {
+                "tenant": "south",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              }
+            }
+          ],
+          "observed_business_rows": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ],
+          "expected": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ],
+          "count_pass": true,
+          "identity_multiset_pass": true
+        },
+        {
+          "mapping": "global_key",
+          "writes": [
+            {
+              "producer": "global",
+              "idempotent_id": "k7",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "discarded_after_independent_observation"
+            },
+            {
+              "producer": "global",
+              "idempotent_id": "k7",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "2"
+              },
+              "ack": "1793820677067-0"
+            },
+            {
+              "producer": "global",
+              "idempotent_id": "k9",
+              "body": {
+                "tenant": "north",
+                "local_intent": "2",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "1793820677068-0"
+            },
+            {
+              "producer": "global",
+              "idempotent_id": "k7",
+              "body": {
+                "tenant": "south",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "1793820677067-0"
+            }
+          ],
+          "entries": [
+            {
+              "server_seq": "1793820677067-0",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              }
+            },
+            {
+              "server_seq": "1793820677068-0",
+              "body": {
+                "tenant": "north",
+                "local_intent": "2",
+                "payload": "0",
+                "attempt_no": "1"
+              }
+            }
+          ],
+          "observed_business_rows": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ],
+          "expected": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ],
+          "count_pass": false,
+          "identity_multiset_pass": false
+        },
+        {
+          "mapping": "global_key_attempt",
+          "writes": [
+            {
+              "producer": "global",
+              "idempotent_id": "k7-1",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "discarded_after_independent_observation"
+            },
+            {
+              "producer": "global",
+              "idempotent_id": "k7-2",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "2"
+              },
+              "ack": "1793820677069-1"
+            },
+            {
+              "producer": "global",
+              "idempotent_id": "k9-1",
+              "body": {
+                "tenant": "north",
+                "local_intent": "2",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "1793820677070-0"
+            },
+            {
+              "producer": "global",
+              "idempotent_id": "k7-1",
+              "body": {
+                "tenant": "south",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "1793820677069-0"
+            }
+          ],
+          "entries": [
+            {
+              "server_seq": "1793820677069-0",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              }
+            },
+            {
+              "server_seq": "1793820677069-1",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "2"
+              }
+            },
+            {
+              "server_seq": "1793820677070-0",
+              "body": {
+                "tenant": "north",
+                "local_intent": "2",
+                "payload": "0",
+                "attempt_no": "1"
+              }
+            }
+          ],
+          "observed_business_rows": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ],
+          "expected": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ],
+          "count_pass": true,
+          "identity_multiset_pass": false
+        }
+      ]
+    },
+    {
+      "engine": "NATS JetStream",
+      "server_version": "<nats server v2.15.2>",
+      "client_version": "2.16.0",
+      "oracle": "stream_info and get_msg on a separate connection",
+      "duplicate_window_seconds": 60,
+      "cases": [
+        {
+          "mapping": "tenant_scoped",
+          "writes": [
+            {
+              "Nats-Msg-Id": "north/k7",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "unobserved_reply_inbox_after_independent_observation"
+            },
+            {
+              "Nats-Msg-Id": "north/k7",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "2"
+              },
+              "ack": {
+                "seq": 1,
+                "duplicate": true
+              }
+            },
+            {
+              "Nats-Msg-Id": "north/k9",
+              "body": {
+                "tenant": "north",
+                "local_intent": "2",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": {
+                "seq": 2,
+                "duplicate": false
+              }
+            },
+            {
+              "Nats-Msg-Id": "south/k7",
+              "body": {
+                "tenant": "south",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": {
+                "seq": 3,
+                "duplicate": false
+              }
+            }
+          ],
+          "entries": [
+            {
+              "server_seq": 1,
+              "body": {
+                "attempt_no": "1",
+                "local_intent": "1",
+                "payload": "0",
+                "tenant": "north"
+              }
+            },
+            {
+              "server_seq": 2,
+              "body": {
+                "attempt_no": "1",
+                "local_intent": "2",
+                "payload": "0",
+                "tenant": "north"
+              }
+            },
+            {
+              "server_seq": 3,
+              "body": {
+                "attempt_no": "1",
+                "local_intent": "1",
+                "payload": "0",
+                "tenant": "south"
+              }
+            }
+          ],
+          "observed_business_rows": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ],
+          "expected": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ],
+          "count_pass": true,
+          "identity_multiset_pass": true
+        },
+        {
+          "mapping": "global_key",
+          "writes": [
+            {
+              "Nats-Msg-Id": "global/k7",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "unobserved_reply_inbox_after_independent_observation"
+            },
+            {
+              "Nats-Msg-Id": "global/k7",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "2"
+              },
+              "ack": {
+                "seq": 1,
+                "duplicate": true
+              }
+            },
+            {
+              "Nats-Msg-Id": "global/k9",
+              "body": {
+                "tenant": "north",
+                "local_intent": "2",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": {
+                "seq": 2,
+                "duplicate": false
+              }
+            },
+            {
+              "Nats-Msg-Id": "global/k7",
+              "body": {
+                "tenant": "south",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": {
+                "seq": 1,
+                "duplicate": true
+              }
+            }
+          ],
+          "entries": [
+            {
+              "server_seq": 1,
+              "body": {
+                "attempt_no": "1",
+                "local_intent": "1",
+                "payload": "0",
+                "tenant": "north"
+              }
+            },
+            {
+              "server_seq": 2,
+              "body": {
+                "attempt_no": "1",
+                "local_intent": "2",
+                "payload": "0",
+                "tenant": "north"
+              }
+            }
+          ],
+          "observed_business_rows": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ],
+          "expected": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ],
+          "count_pass": false,
+          "identity_multiset_pass": false
+        },
+        {
+          "mapping": "global_key_attempt",
+          "writes": [
+            {
+              "Nats-Msg-Id": "global/k7-1",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": "unobserved_reply_inbox_after_independent_observation"
+            },
+            {
+              "Nats-Msg-Id": "global/k7-2",
+              "body": {
+                "tenant": "north",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "2"
+              },
+              "ack": {
+                "seq": 2,
+                "duplicate": false
+              }
+            },
+            {
+              "Nats-Msg-Id": "global/k9-1",
+              "body": {
+                "tenant": "north",
+                "local_intent": "2",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": {
+                "seq": 3,
+                "duplicate": false
+              }
+            },
+            {
+              "Nats-Msg-Id": "global/k7-1",
+              "body": {
+                "tenant": "south",
+                "local_intent": "1",
+                "payload": "0",
+                "attempt_no": "1"
+              },
+              "ack": {
+                "seq": 1,
+                "duplicate": true
+              }
+            }
+          ],
+          "entries": [
+            {
+              "server_seq": 1,
+              "body": {
+                "attempt_no": "1",
+                "local_intent": "1",
+                "payload": "0",
+                "tenant": "north"
+              }
+            },
+            {
+              "server_seq": 2,
+              "body": {
+                "attempt_no": "2",
+                "local_intent": "1",
+                "payload": "0",
+                "tenant": "north"
+              }
+            },
+            {
+              "server_seq": 3,
+              "body": {
+                "attempt_no": "1",
+                "local_intent": "2",
+                "payload": "0",
+                "tenant": "north"
+              }
+            }
+          ],
+          "observed_business_rows": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ]
+          ],
+          "expected": [
+            [
+              "north",
+              "1",
+              "0"
+            ],
+            [
+              "north",
+              "2",
+              "0"
+            ],
+            [
+              "south",
+              "1",
+              "0"
+            ]
+          ],
+          "count_pass": true,
+          "identity_multiset_pass": false
+        }
+      ]
+    }
+  ],
+  "method": "One private server per engine, one fresh stream per mapping, sequential immediate sends. A separate connection observes the first append; the producer does not consume its application acknowledgement. Then the remaining three commands are issued.",
+  "scope": "Author-chosen client key mappings with synthetic business intents; in-memory, single server, no network partition, public service, failover, expiry or durable disk recovery.",
+  "sha256": "fadfe600ceb7448883755ea067de73b12f6dc15bce3caef3eb1b77eda3561a11"
+}

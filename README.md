@@ -1,5 +1,9 @@
 # StateProof CrashLab
 
+**[Run the intent-identity experiment](https://praneethhere.github.io/stateproof-meta-hackathon/intent-study.html)** · Three stored rows can hide a duplicate and another customer’s lost booking. A four-write witness classified all 32 index designs in a defined family. No shorter fixed trace did. The same mis-scoped client ID produced the wrong three records on Redis Streams and NATS JetStream. [Methods, proof and reproduction](INTENT_STUDY.md)
+
+On the earlier language task, recorded Muse scored **6/6 complete pairs**, frozen DeBERTa NLI **5/6**, a nearest-description control **1/6**, and each of four simple rules **0/6**. The retrospective comparators saw individual descriptions; the original Muse batches included the paired descriptions.
+
 **[Run a booking crash test in your browser](https://praneethhere.github.io/stateproof-meta-hackathon/retry-lab.html)** · Execute SQLite writes, change a real index, inspect the rows, and download a standalone Python regression. The test uses the recorded Muse booking policy.
 
 **[Compare the six frozen Muse contract pairs](https://praneethhere.github.io/stateproof-meta-hackathon/contrast.html)**
