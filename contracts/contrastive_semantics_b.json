@@ -1,0 +1,69 @@
+{
+  "public": {
+    "scenario": "Synthetic contrastive retry semantics, set B",
+    "task": "For each mutating operation, decide whether a stable exact request key has an explicit, durable duplicate-suppression guarantee, or only supports tracing or an unsupported best-effort claim. Every operation is synthetic.",
+    "operations": [
+      {
+        "id": "op_g5c3",
+        "method": "PUT",
+        "description": "Enrollment uses the same client nonce in each request. The server retains a stable nonce-to-device mapping and guarantees identical-nonce retries only read that mapping; a second registration is not produced."
+      },
+      {
+        "id": "op_s7x1",
+        "method": "PUT",
+        "description": "Enrollment uses the same client nonce in each request. The server retains a temporary nonce log but gives no guarantee that identical-nonce retries only read that log; a second registration may be produced."
+      },
+      {
+        "id": "op_h8f4",
+        "method": "POST",
+        "description": "Each message has a message-reference value. Duplicates with the same reference are acknowledged using a new delivery receipt; the message is sent and billed a second time."
+      },
+      {
+        "id": "op_r2b6",
+        "method": "POST",
+        "description": "Each message has a message-reference value. Duplicates with the same reference are acknowledged using the first delivery receipt, without sending or billing the message a second time."
+      },
+      {
+        "id": "op_y1m5",
+        "method": "POST",
+        "description": "Issues a voucher with stable issuance_id. A retransmission of issuance_id after an ambiguous acknowledgment retrieves the original voucher; server-side uniqueness prevents duplicate voucher creation."
+      },
+      {
+        "id": "op_n4k7",
+        "method": "POST",
+        "description": "Issues a voucher with stable issuance_id. A retransmission of issuance_id after an ambiguous acknowledgment carries that ID for audit only; server-side uniqueness does not prevent duplicate voucher creation."
+      },
+      {
+        "id": "lookup_status",
+        "method": "GET",
+        "description": "Read-only status inspection, which may lag after a write. Does not itself create an external business effect."
+      }
+    ]
+  },
+  "private_simulator": {
+    "op_g5c3": {
+      "dedupe": "request_key",
+      "severity": 3
+    },
+    "op_s7x1": {
+      "dedupe": "none",
+      "severity": 3
+    },
+    "op_r2b6": {
+      "dedupe": "request_key",
+      "severity": 2
+    },
+    "op_h8f4": {
+      "dedupe": "none",
+      "severity": 2
+    },
+    "op_y1m5": {
+      "dedupe": "request_key",
+      "severity": 3
+    },
+    "op_n4k7": {
+      "dedupe": "none",
+      "severity": 3
+    }
+  }
+}

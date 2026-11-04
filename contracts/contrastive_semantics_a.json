@@ -1,0 +1,69 @@
+{
+  "public": {
+    "scenario": "Synthetic contrastive retry semantics, set A",
+    "task": "For each mutating operation, decide whether a stable exact request key has an explicit, durable duplicate-suppression guarantee, or only supports tracing or an unsupported best-effort claim. Every operation is synthetic.",
+    "operations": [
+      {
+        "id": "op_m2r9",
+        "method": "POST",
+        "description": "Creates a warehouse slot hold with a request-key header. The key is stored durably for event correlation. Replaying that identical key, even after a dropped response, creates an additional hold; no uniqueness check runs."
+      },
+      {
+        "id": "op_k8q4",
+        "method": "POST",
+        "description": "Creates a warehouse slot hold with a request-key header. The key is stored durably. Replaying that identical key, even after a dropped response, returns the existing hold and never makes another hold."
+      },
+      {
+        "id": "op_t3a7",
+        "method": "POST",
+        "description": "Captures freight settlement with a stable transaction reference. A duplicate replay with the same reference is suppressed at commit by a uniqueness constraint; callers receive the previously committed settlement."
+      },
+      {
+        "id": "op_v6j1",
+        "method": "POST",
+        "description": "Captures freight settlement with a stable transaction reference. A duplicate replay with the same reference is recorded for reconciliation but is not suppressed at commit; a second settlement may be charged."
+      },
+      {
+        "id": "op_d9w2",
+        "method": "POST",
+        "description": "Assignments are accepted with dispatch_token. It is a searchable event field, not an enforced unique key: if the same token is retried, the service may create a second dispatch and additional fee."
+      },
+      {
+        "id": "op_p4n8",
+        "method": "POST",
+        "description": "Assignments are accepted with dispatch_token. It is an enforced unique key: if the same token is retried, the service returns the existing assignment without any second dispatch or additional fee."
+      },
+      {
+        "id": "lookup_status",
+        "method": "GET",
+        "description": "Read-only status inspection, which may lag after a write. Does not itself create an external business effect."
+      }
+    ]
+  },
+  "private_simulator": {
+    "op_k8q4": {
+      "dedupe": "request_key",
+      "severity": 2
+    },
+    "op_m2r9": {
+      "dedupe": "none",
+      "severity": 2
+    },
+    "op_t3a7": {
+      "dedupe": "request_key",
+      "severity": 5
+    },
+    "op_v6j1": {
+      "dedupe": "none",
+      "severity": 5
+    },
+    "op_p4n8": {
+      "dedupe": "request_key",
+      "severity": 4
+    },
+    "op_d9w2": {
+      "dedupe": "none",
+      "severity": 4
+    }
+  }
+}

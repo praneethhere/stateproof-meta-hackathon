@@ -1,0 +1,36 @@
+{
+  "schema": "stateproof-contrastive-pair-manifest-v1",
+  "never_sent_to_muse": true,
+  "pairs": [
+    {
+      "name": "slot_reserve",
+      "safe_id": "op_k8q4",
+      "unsafe_id": "op_m2r9"
+    },
+    {
+      "name": "freight_capture",
+      "safe_id": "op_t3a7",
+      "unsafe_id": "op_v6j1"
+    },
+    {
+      "name": "driver_assign",
+      "safe_id": "op_p4n8",
+      "unsafe_id": "op_d9w2"
+    },
+    {
+      "name": "device_enroll",
+      "safe_id": "op_g5c3",
+      "unsafe_id": "op_s7x1"
+    },
+    {
+      "name": "webhook_deliver",
+      "safe_id": "op_r2b6",
+      "unsafe_id": "op_h8f4"
+    },
+    {
+      "name": "voucher_issue",
+      "safe_id": "op_y1m5",
+      "unsafe_id": "op_n4k7"
+    }
+  ]
+}
