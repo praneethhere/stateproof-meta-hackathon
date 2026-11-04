@@ -1,0 +1,32 @@
+# Intent identity and retry tests | November 4, 2026
+
+## Decision and provenance
+
+This prospective specification for a new local experiment follows inspection of the existing booking probe, the earlier public twelve-item contract comparison, and nearby prior art. The earlier cases, model outputs and four control results remain frozen. The new semantic comparisons are retrospective on that public dataset. The protocol is locally committed before measuring the new study. The local timestamp alone is not external preregistration. The optional separate Muse test-design call must follow publication of its exact prompt and scoring rules. No case selection after scoring.
+
+## Experimental question
+
+Can a repeat-only test authorize an adapter that silently merges independent customer intents? Can a total-row oracle pass a trace in which a lost intent is offset by a duplicate? What is the minimum length of a single fixed append trace that classifies every adapter in this specified fault family using its final business rows?
+
+## Bounded task and reference class
+
+Two tenants have two local booking IDs apiece. Aliases are A = north/1, B = north/2, C = south/1 and D = south/2. The request keys for local IDs 1 and 2 are k7 and k9 in both tenants. Keys are unique within a tenant and intentionally reusable across tenants. Each intent keeps its tenant, local ID, request key and payload across retries. The attempt ordinal increases per intent on every issued call. A valid adapter records one effect with the correct payload per distinct `(tenant, local_intent)`. All calls are issued to an otherwise empty store; after an accepted write a caller can replay it. These are immediate retries without concurrency, retention expiry or changing business payload on a retry.
+
+All 31 nonempty subsets of `{tenant, local_intent, request_key, payload, attempt_no}` are used as one SQL UNIQUE index. The 32nd adapter has no uniqueness index. Every adapter uses the same INSERT with `ON CONFLICT DO NOTHING` and no other constraints affecting distinctness. Business outcomes are measured from actual SQLite rows, not from the insert reply. The independent structural reference marks a subset valid exactly when it includes tenant, includes local intent or request key, and excludes attempt number. Stable payload is optional. Verify this classification against actual stored effects on bounded histories. These adapters are a finite constructed family, not independent samples from production.
+
+## Measurement and falsifiers
+
+Main equal-budget schedules use four appends, identical payload for all four logical intents, and no reset or intermediate feedback. Compare `AAAA` (repeat only) and `ABCD` (no retry) with `AABC`. Score `AABC` three ways: number of stored rows, set of distinct business tuples, and multiset of `(tenant, local_intent, payload)`. Publish all 32 per-adapter decisions and both false approvals and false refusals relative to the structural spec. Publish the precise SQL, expected identities and observed identities for the compensated collision exemplar `UNIQUE(request_key,attempt_no)`.
+
+For the minimum-length check, test every fixed, ordered schedule of length 1 through 4 over A–D under all 16 assignments of two stable payload values. Count the schedules/assignments that give exactly the reference classification across all 32 adapters. Publish a combinatorial explanation. One adequate trace of length ≤3 falsifies the proposed lower bound. One misclassified adapter on the nominated `AABC` multiset witness falsifies sufficiency. An empty trace trivially accepts every adapter. Scope is final business-state comparison without schema access, intermediate oracles, invalid requests, or adaptive branching.
+
+External checks reuse `AABC` on unmodified Redis Streams and NATS JetStream, subject to binary availability. Configure three explicit client ID mappings with tenant scope, a global request key, and a global request key plus attempt. Store business identities in message bodies, query the authoritative stream via a separate client, and report every case. The client deliberately causes any aliasing; this exercise tests representation of business intent. It does not allege a vendor defect or estimate production reliability. These cases are demonstrations across engines, not a Redis or NATS reliability rate.
+
+## Retrospective controls on the twelve earlier contract descriptions
+
+1. Train a character n-gram (3–5, within padded word boundaries) TF–IDF nearest-neighbor control only on the earlier seven labeled operation descriptions. Fit IDF on those seven, use cosine similarity, and resolve a tie by lexicographic source operation ID. Score all twelve new descriptions individually.
+2. Run `cross-encoder/nli-deberta-v3-small` at immutable revision `fa2804872c3b4bd748f38c0185cc85775361e735`. Feed each public description alone. Compare the entailment logits for these fixed hypotheses: “Repeating this write with the same identifier is guaranteed not to create or charge for the business effect a second time.” and “Repeating this write with the same identifier may create or charge for the business effect a second time.” An exact tie chooses verify/escalate. Use deterministic CPU inference, no tuning, no new model call to Meta, and report both logits, every prediction, operation score and complete-pair score. The original Muse responses received six descriptions per call, including the partner description. The inputs and output obligations differ. A tie or loss against either comparator must be reported. If the frozen model cannot be obtained or executed, report missing evidence rather than silently substituting a model.
+
+## Optional Muse test design
+
+Give Muse Spark 1.3 only the public task and the permitted action/readout format. One response may suggest up to four appends and one of three readouts. Do not include gold schedules, mutant outcomes or observed results in its input. Grade the exact proposal against all 32 variants, report budget, flags, survivors and the same trace with the multiset grader. Compare with the best four-write human design and simple controls. A tie is a finite test-design success; a survivor is a concrete falsification of the proposed certification. One model response on one disclosed task cannot establish repeatability, generalization or model superiority. Keep aborted and malformed attempts and never silently replace them.
