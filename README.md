@@ -139,6 +139,8 @@ Optional Meta experiments require your own `MODEL_API_KEY` and explicit `--live`
 
 **Project contribution:** an inspectable developer prototype integrating model-generated fault selection, real local HTTP agent execution, independent state verification, and a deterministic policy intervention with explicit limitations.
 
+**Later retry-identity sensitivity (November 15, 2026):** A separately labeled, no-model SQLite check changes the key and/or payload on the second `A` in `AABC`. Of the original six index choices valid for stable retry metadata, 6, 2, 3 and 1 respectively preserve the original final business state under stable/stable, fresh-key, changed-payload and both-changed scenarios. This is not part of the frozen experiment, does not verify conflict-response semantics, and is not evidence that the agent itself changed a key. See [bounded sensitivity, assumptions and limitations](INTENT_STUDY.md#post-hoc-retry-metadata-sensitivity-november-15-2026) and run `python research/retry_identity_sensitivity.py`.
+
 ## Contract-to-policy experiment (optional new hackathon component)
 
 The separate [policy protocol](POLICY_PROTOCOL.md) defines an explicitly bounded test in which Muse Spark 1.3 *proposes* a retry policy from the **public descriptions** of seven synthetic write operations. A deterministic readback-first client then executes 14 loopback HTTP/SQLite fault checks. The trusted adapter must verify request-key deduplication before allowing repeat writes; the model cannot authorize them by assertion. The `always_retry` control is included because it may match model outcomes when the adapter already knows the server semantics.

@@ -21,7 +21,7 @@ The original workbench's repeat probe intentionally measures only one booking. I
 
 The implementation family contains all 31 nonempty UNIQUE index subsets of five fields, plus an adapter without a unique index. The fields are tenant, local booking ID, request key, stable payload and per-intent attempt number. Each row is appended with `ON CONFLICT DO NOTHING`. The reference contract requires one correct row per distinct tenant and local booking. The client reuses all business fields on retry. Keys are unique within a tenant and may recur elsewhere. In this family, six index choices satisfy the contract and 26 do not.
 
-**Sufficiency.** In the fixed trace `AABC`, a missing uniqueness constraint or an index containing the changing attempt number allows the second A. With attempt number absent, an index omitting tenant collides on A and C, because all their remaining fields are equal. An index including tenant but neither local booking ID nor request key collides on A and B because their payloads are equal. These cases exhaust the 26 invalid designs. Each valid index contains tenant and at least one of the two per-tenant identifiers and excludes attempt number. It suppresses only the repeat and preserves the three intended effects. Comparing tenant, local ID and payload **with multiplicity** distinguishes all 32 designs in this test.
+**Sufficiency.** In the fixed trace `AABC`, a missing uniqueness constraint or an index containing the changing attempt number allows the second A. With attempt number absent, an index omitting tenant collides on A and C, because all their remaining fields are equal. An index including tenant but neither local booking ID nor request key collides on A and B because their payloads are equal. These cases exhaust the 26 invalid designs. Each valid index contains tenant and at least one of the two per-tenant identifiers and excludes attempt number. It suppresses only the repeat and preserves the three intended effects. Comparing tenant, local ID and payload **with multiplicity** correctly **classifies all 32 designs as contract-valid or contract-invalid** in this test. It does not uniquely identify all 32 designs from their outputs: `AABC` produces eight distinct observed final-state patterns.
 
 **Necessity.** Any trace with at most three writes either contains no retry or contains at most two distinct intents. Without a retry the no-index adapter can produce the required final state. When the at-most-two intents share a tenant, an invalid globally scoped request-key adapter can produce the required state. When they belong to different tenants, an invalid tenant-only adapter can do so. A one-intent trace likewise admits a bad adapter. In each case an invalid design has the same final business rows as a valid design. No decision using only those rows can separate them on that trace. This lower bound covers single fixed nonadaptive schedules, an initially empty store and the declared workload. It does not cover schema introspection, multiple independent resets, arbitrary APIs, intermediate privileged observations or concurrent histories.
 
@@ -51,6 +51,27 @@ All five comparisons accepted all six valid designs. On the constant-payload tas
 This secondary analysis was added after inspecting the main results. The 32 syntactic index choices yield **13 distinct observed behaviors** over the entire finite corpus. Six valid index choices share the same correct behavior. Across the **12 distinct invalid behaviors**, four-write repeat-only counting falsely approves 5, the mixed AABC row count approves 4, and the AABC multiset check approves 0. The latter result also holds without giving additional weight to behaviorally equivalent keys.
 
 We deliberately tried to break the witness outside its assumptions. SQLite permits a partial tenant/key index that enforces uniqueness only when `payload = '0'`. It passes the `AABC` demonstration on payload 0, but `AA` on payload 1 produces two bookings for one intent. This concrete counterexample blocks a claim of general certification. [Equivalence groups and out-of-family tests](docs/intent-boundaries.json)
+
+## Post-hoc retry-metadata sensitivity (November 15, 2026)
+
+The frozen primary experiment above assumes that every retry reuses the same request key and business payload. The following **later, separately labeled deterministic sensitivity check** keeps the original expected business state and changes only the second `A` in `AABC`. It runs the same 32 SQLite index configurations and the same business-identity multiset readout; it does not involve the Muse agent or change any frozen trial, manuscript protocol, or prior result.
+
+| Metadata on the second A | Originally valid configurations preserving intended state / 6 | Originally invalid configurations falsely accepted / 26 | Distinct final-state patterns |
+|---|---:|---:|---:|
+| Same key, same payload | 6 | 0 | 8 |
+| Fresh request key | 2 | 0 | 8 |
+| Changed payload | 3 | 0 | 7 |
+| Fresh key and changed payload | 1 | 0 | 7 |
+
+The output was reproduced locally on November 15 using `python research/retry_identity_sensitivity.py`. A pass means **only** that the final stored `(tenant, local_intent, payload)` multiset equals the original intended business state. It does **not** verify an HTTP error response, argument-conflict handling, proper request rejection, or completion of a genuinely changed business request. In particular, silently keeping the original payload when a retry supplies a different payload may satisfy this readout while violating the API's conflict contract. A correct application should separately define what constitutes the same intent, whether request keys must be preserved, and how changed payloads are rejected or reinterpreted.
+
+The six original structurally valid indexes were classified under the **fixed-key/fixed-payload** workload. These post-hoc mutations change that workload; reduced pass counts do not retroactively reclassify those six designs as invalid under the original specification. `request_key` is fully determined by `local_intent` in the frozen A–D fixtures, so the main experiment does not independently vary these two identifiers; the fresh-key test deliberately stresses that relationship. The `different_payload_retry` label in `docs/intent-boundaries.json` is historical shorthand: the stored rows actually use the same nonzero payload on both attempts. Keep the evidence JSON and its recorded hash unchanged; do not cite that label as a changed-payload result.
+
+Reproduce without external services or a model API key:
+
+```bash
+python research/retry_identity_sensitivity.py
+```
 
 ## Transfer to two unmodified queue engines
 
